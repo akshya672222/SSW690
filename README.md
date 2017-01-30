@@ -11,3 +11,5 @@ Work Plan:
 4)Api.ai, designing, Rnd, Testing or any frontend work(Sonali and Pranay)
 
 Everyone will maintain and share a sheet of task list they will be covering in their part and when they will be delivering that part of task or you can say you have to break your work into user stories in a sheet. Share the sheet on repository so that everyone can look at it and plan their work accordingly. Then after that we have to plan user stories for each week and update the shared sheet.
+
+Everyone will maintain a seperate branch for themselves. At end of week we will test and merge the code on development branch (main branch for everyone).
