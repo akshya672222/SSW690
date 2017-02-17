@@ -13,63 +13,51 @@ import UIKit
 
 class GlobalFunction{
     
-//    class func numberOfLinesForLabel(label : UILabel) -> Int {
-//        return 0;
-//    }
-//    
-//    class func rectForLabel(label : UILabel) -> CGRect{
-//     
-//        let maxLabelSize = CGSize(width: 2000, height: 2000);
-//        
-//        let lblText = label.text;
-//        let lblText_String = lblText as NSString;
-//        
-//        var rect = ((lblText_String).boundingRect(with: maxLabelSize, options: NSStringDrawingOptions.usesFontLeading, attributes:[NSFontAttributeName: label.font], context: nil));
-//        
-//    }
+    enum UIUserInterfaceIdiom : Int{
+        case Unspecified
+        case Phone
+        case Pad
+    }
+    
+    struct ScreenSize{
+        static let SCREEN_WIDTH         = UIScreen.main.bounds.size.width
+        static let SCREEN_HEIGHT        = UIScreen.main.bounds.size.height
+        static let SCREEN_MAX_LENGTH    = max(ScreenSize.SCREEN_WIDTH, ScreenSize.SCREEN_HEIGHT)
+        static let SCREEN_MIN_LENGTH    = min(ScreenSize.SCREEN_WIDTH, ScreenSize.SCREEN_HEIGHT)
+    }
+    
+    struct DeviceType{
+        static let IS_IPHONE_4_OR_LESS  = UIDevice.current.userInterfaceIdiom == .phone && ScreenSize.SCREEN_MAX_LENGTH < 568.0
+        static let IS_IPHONE_5          = UIDevice.current.userInterfaceIdiom == .phone && ScreenSize.SCREEN_MAX_LENGTH == 568.0
+        static let IS_IPHONE_6          = UIDevice.current.userInterfaceIdiom == .phone && ScreenSize.SCREEN_MAX_LENGTH == 667.0
+        static let IS_IPHONE_6P         = UIDevice.current.userInterfaceIdiom == .phone && ScreenSize.SCREEN_MAX_LENGTH == 736.0
+        static let IS_IPAD              = UIDevice.current.userInterfaceIdiom == .pad && ScreenSize.SCREEN_MAX_LENGTH == 1024.0
+    }
+    
+    func isIphone4OrLess() -> Bool {
+        if DeviceType.IS_IPHONE_4_OR_LESS{
+            return true;
+        }
+        return false;
+    }
+    func isIphone5() -> Bool {
+        if DeviceType.IS_IPHONE_5{
+            return true;
+        }
+        return false;
+    }
+    func isIphone6() -> Bool {
+        if DeviceType.IS_IPHONE_6{
+            return true;
+        }
+        return false;
+    }
+    func isIphone6P() -> Bool {
+        if DeviceType.IS_IPHONE_6P{
+            return true;
+        }
+        return false;
+    }
+
     
 }
-
-//+(CGRect)rectForLabel:(UILabel *)label{
-//    
-//    CGSize maximumLabelSize2;
-//    
-//    maximumLabelSize2 = CGSizeMake(CGFLOAT_MAX_WIDTH,CGFLOAT_MAX_HEIGHT);
-//    
-//    CGRect r = [label.text boundingRectWithSize:maximumLabelSize2
-//        options:NSStringDrawingUsesFontLeading
-//        attributes:@{NSFontAttributeName:label.font}
-//    context:nil];
-//    return r;
-//}
-//
-//
-//+(CGFloat)heightForWidth:(CGFloat)width usingFont:(UIFont *)font forLabel:(UILabel *)lbl{
-//    NSStringDrawingContext *context = [[NSStringDrawingContext alloc] init];
-//    CGSize labelSize = (CGSize){width, CGFLOAT_MAX_HEIGHT};
-//    CGRect r = [lbl.text boundingRectWithSize:labelSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: font} context:context];
-//    return r.size.height;
-//}
-//
-//+(void)createShadowOnView:(UIView *)view color:(UIColor *)color width:(CGFloat)width height:(CGFloat)height shadowOpacity:(CGFloat)shadowOpacity andShadowRadius:(CGFloat)radius{
-//    
-//    view.layer.masksToBounds = NO;
-//    view.layer.shadowColor = color.CGColor;
-//    view.layer.shadowOffset = CGSizeMake(width,height);
-//    view.layer.shadowOpacity = shadowOpacity;
-//    [view.layer setShadowRadius:radius];
-//    
-//}
-//
-//+(void)roundCornerOfView:(UIView *)view cornerRadius:(CGFloat)cornerRadius{
-//    view.layer.cornerRadius = cornerRadius;
-//    view.layer.masksToBounds = NO;
-//    
-//}
-//
-//+(void)addborderTo:(UIView *)view withColor:(UIColor *)color andWidth:(CGFloat)width{
-//    
-//    view.layer.borderWidth = width;
-//    view.layer.borderColor = color.CGColor;
-//    
-//}

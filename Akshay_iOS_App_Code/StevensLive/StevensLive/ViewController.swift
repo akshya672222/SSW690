@@ -22,6 +22,8 @@ class ViewController: UIViewController, UITextFieldDelegate{
     @IBOutlet weak var btnLogin: UIButton!
     @IBOutlet weak var btnRememberMe: UIButton!
     
+    @IBOutlet weak var constraintViewTextFieldBottom: NSLayoutConstraint!
+    
     @IBAction func loginClicked(_ sender: Any) {
         
         
