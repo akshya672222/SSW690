@@ -1,10 +1,8 @@
-# P11 -  Maha Alidrisi 
 import urllib2
 import io
 import  re
 import sys
 from bs4 import BeautifulSoup
-import unicodedata
 
 inputURL = "https://www.stevens.edu/events"
 
@@ -18,7 +16,6 @@ Event =soup.find_all("article",attrs={"class" : "clearfix events_list_wide_item"
 DL= "https://www.stevens.edu"
 
 Event_List = []
-i=0
 
 for event in Event:
     temp=[]
@@ -72,4 +69,3 @@ for event in Event:
     Event_List=Event_List+[temp]
 
 print Event_List
-
