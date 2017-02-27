@@ -3,6 +3,15 @@ import io
 import  re
 import sys
 from bs4 import BeautifulSoup
+import sqlite3
+
+# db conncetion
+
+try:
+    con = sqlite3.connect("Stevens.db")
+except Exception as e: #sqlite3.OperationalError
+    print e
+
 
 inputURL = "https://www.stevens.edu/events"
 
@@ -20,10 +29,7 @@ Event_List = []
 for event in Event:
     temp=[]
     if event.get("class")[0] == u'clearfix':  
-        # get date
-        time = event.find("time",attrs={"class" : "events_list_wide_item_time"})
-        t=(time.get_text()).encode('ascii', 'ignore')
-        temp+=[t]
+
         
         # get category
         category = event.find("span",attrs={"class" : "events_list_wide_item_cat"})
@@ -37,6 +43,10 @@ for event in Event:
         ti=(title.get_text()).encode('ascii', 'ignore')
         temp+=[ti]
         
+        # get date
+        time = event.find("time",attrs={"class" : "events_list_wide_item_time"})
+        t=(time.get_text()).encode('ascii', 'ignore')
+        temp+=[t]
         
         """
         links=event.find("a",attrs={"class" :"events_list_wide_item_button events_list_wide_item_button_detail"})
@@ -67,5 +77,9 @@ for event in Event:
             temp+=[loc]
 
     Event_List=Event_List+[temp]
-
+    """
+    sql= "INSERT INTO Events (Eid, Ename, Elocation, Etime, Edate, Edescription, Eimage, Esource) values (1, 'John', 'Peterson', 'jp@example.com','abc123', 123456,null,'Email')"
+    con.commit()
+    # con.close()
+"""
 print Event_List
