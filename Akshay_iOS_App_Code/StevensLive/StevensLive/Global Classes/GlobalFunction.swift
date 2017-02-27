@@ -10,8 +10,9 @@ import Foundation
 import QuartzCore
 import UIKit
 
-
 class GlobalFunction{
+    
+    let redColor = UIColor.init(red: 157.0/255.0, green: 21.0/255.0, blue: 53.0/255.0, alpha: 1.0)
     
     enum UIUserInterfaceIdiom : Int{
         case Unspecified
@@ -58,6 +59,12 @@ class GlobalFunction{
         }
         return false;
     }
-
+    
+    func isValidEmail(testStr:String) -> Bool {
+        // print("validate calendar: \(testStr)")
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@stevens.edu"
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailTest.evaluate(with: testStr)
+    }
     
 }

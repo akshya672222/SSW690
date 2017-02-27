@@ -42,6 +42,23 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
     
     @IBOutlet weak var constraintViewVoiceLeading: NSLayoutConstraint!
     
+    // side bar work
+    @IBOutlet weak var viewBackgroundForSideBar: UIView!
+    
+    @IBOutlet weak var constraintBackgroundSidebarTrailing: NSLayoutConstraint! //default = width
+    
+    @IBOutlet weak var constraintSideBarViewLeading: NSLayoutConstraint! //default = -280
+    
+    @IBOutlet weak var imgViewUserProfilePicture: UIImageView!
+    
+    @IBOutlet weak var lblUserName: UILabel!
+    
+    @IBOutlet weak var btnLogout: UIButton!
+    
+    @IBOutlet weak var tableViewSideBar: UITableView!
+    // side bar work ends
+    
+    
     var isFilterOpen = false;
     var isVoiceOpen = false;
     var isViewOpen = false;
@@ -50,13 +67,38 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
     let global = GlobalFunction();
     var origImage = #imageLiteral(resourceName: "Voice") as UIImage;
     let categoryList = ["Admissions - Graduate", "Admissions - Undergraduate", "Alumni", "Athletics", "Career Development", "Conferences", "Health & Wellness", "Open to the Public", "Performing & Visual Arts", "Student Life", "Talks & Lectures", "University-wide"] as NSArray;
+    let sideMenuItems = ["Home", "My Subscriptions", "Settings"] as NSArray;
+
     var previousIndexPath = IndexPath();
+    var previousIndexPath_sideMenu = IndexPath.init(row: 0, section: 0);
+    var fullNameString = String();
+    var imagePP = #imageLiteral(resourceName: "UserProfilePicture");
+    
+    @IBAction func logoutClicked(_ sender: Any) {
+        let alertV = UIAlertController(title: "LOGOUT",
+                                       message: "Are you sure? You want to Logout.",
+                                       preferredStyle: .alert)
+        let alertYesAction=UIAlertAction(title:"YES", style: UIAlertActionStyle.destructive,handler: { action in
+            self.performSegue(withIdentifier: "logoutseague", sender: self)
+        })
+        let alertNoAction=UIAlertAction(title:"NO", style: UIAlertActionStyle.default,handler: { action in
+            print("No Button Pressed")
+        })
+        alertV.addAction(alertNoAction)
+        alertV.addAction(alertYesAction)
+        
+        self.present(alertV, animated: true, completion:nil)
+    }
+    
+    @IBAction func sideBarClose(_ sender: Any) {
+        closeSideBar();
+    }
 
     @IBAction func closeFilterAndVoiceView(_ sender: Any) {
     
         closeView();
-        btnVoiceAssistant.tintColor = UIColor.init(red: 177.0/255.0, green: 0.0/255.0, blue: 52.0/255.0, alpha: 1.0);
-        btnFilter.setTitleColor(UIColor.init(red: 177.0/255.0, green: 0.0/255.0, blue: 52.0/255.0, alpha: 1.0), for: .normal);
+        btnVoiceAssistant.tintColor = global.redColor;
+        btnFilter.setTitleColor(global.redColor, for: .normal);
 
         isViewOpen = false;
         isFilterOpen = false;
@@ -68,6 +110,21 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
     }
     
     @IBAction func openSideMenu(_ sender: Any) {
+        view.layoutIfNeeded();
+        constraintSideBarViewLeading.constant = 0;
+        constraintBackgroundSidebarTrailing.constant = 0;
+        UIView.animate(withDuration: 1.0) { 
+            self.view.layoutIfNeeded();
+        };
+    }
+    
+    func closeSideBar() {
+        view.layoutIfNeeded();
+        constraintSideBarViewLeading.constant = -280;
+        constraintBackgroundSidebarTrailing.constant = view.frame.size.width;
+        UIView.animate(withDuration: 1.0) {
+            self.view.layoutIfNeeded();
+        };
     }
     
     @IBAction func openFilterMenu(_ sender: Any) {
@@ -77,7 +134,7 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
             if isVoiceOpen{
                 let tintedImage = origImage.withRenderingMode(.alwaysTemplate);
                 btnVoiceAssistant.setImage(tintedImage, for: .normal);
-                btnVoiceAssistant.tintColor = UIColor.init(red: 177.0/255.0, green: 0.0/255.0, blue: 52.0/255.0, alpha: 1.0);
+                btnVoiceAssistant.tintColor = global.redColor;
                 btnFilter.setTitleColor(UIColor.gray, for: .normal);
                 
                 viewFilter.isHidden = false;
@@ -95,7 +152,7 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
                 isVoiceOpen = false;
             }else{
                 closeView();
-                btnFilter.setTitleColor(UIColor.init(red: 177.0/255.0, green: 0.0/255.0, blue: 52.0/255.0, alpha: 1.0), for: .normal);
+                btnFilter.setTitleColor(global.redColor, for: .normal);
                 isViewOpen = false;
                 isFilterOpen = false;
                 isVoiceOpen = false;
@@ -131,7 +188,7 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
         }else if global.isIphone6P() {
             constraintFilterVoiceViewHeight.constant = 100;
         }
-        constraintViewBackgroundTopSpace.constant = self.view.frame.height;
+        constraintViewBackgroundTopSpace.constant = self.view.frame.height-70;
         constraintViewVoiceTopAlignment.constant = 600;
         UIView.animate(withDuration: 1.0, animations: {
             self.view.layoutIfNeeded();
@@ -142,13 +199,12 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
     }
     
     @IBAction func openVoiceAssistant(_ sender: Any) {
-
         let tintedImage = origImage.withRenderingMode(.alwaysTemplate);
         btnVoiceAssistant.setImage(tintedImage, for: .normal);
 
         if isViewOpen{
             if isFilterOpen{
-                btnFilter.setTitleColor(UIColor.init(red: 177.0/255.0, green: 0.0/255.0, blue: 52.0/255.0, alpha: 1.0), for: .normal);
+                btnFilter.setTitleColor(global.redColor, for: .normal);
                 btnVoiceAssistant.tintColor = UIColor.gray;
                 
                 viewVoiceAssistant.isHidden = false;
@@ -167,7 +223,7 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
 
             }else{
                 closeView();
-                btnVoiceAssistant.tintColor = UIColor.init(red: 177.0/255.0, green: 0.0/255.0, blue: 52.0/255.0, alpha: 1.0);
+                btnVoiceAssistant.tintColor = global.redColor;
                 isViewOpen = false;
                 isFilterOpen = false;
                 isVoiceOpen = false;
@@ -221,8 +277,26 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
 
             previousIndexPath = indexPath;
             
+        }else if tableView == tableViewSideBar{
+            let cell: SideBarTableViewCell = tableView.cellForRow(at: indexPath) as! SideBarTableViewCell;
+            let cell2: SideBarTableViewCell = tableView.cellForRow(at: previousIndexPath_sideMenu) as! SideBarTableViewCell;
+            
+            if indexPath.row == previousIndexPath_sideMenu.row {
+                // close side bar and do nothing
+                closeSideBar();
+            }else{
+                self.view.layoutIfNeeded();
+                cell.constraintViewSelectionTrailingSpace.constant = 30;
+                cell2.constraintViewSelectionTrailingSpace.constant = 278;
+                UIView.animate(withDuration: 1.0, animations: {
+                    self.view.layoutIfNeeded();
+                }, completion: { (True) in
+                    self.closeSideBar();
+                    // close side bar and navigate to view
+                });
+            }
+            previousIndexPath_sideMenu = indexPath;
         }
-
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
@@ -230,6 +304,8 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
             return 10;
         }else if tableView == tblCategories{
             return categoryList.count;
+        }else if tableView == tableViewSideBar{
+            return sideMenuItems.count;
         }
         return 0;
     }
@@ -271,7 +347,7 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
             
             
             return cell;
-        }else{
+        }else if tableView == tblCategories{
          
             let cell = tableView.dequeueReusableCell(withIdentifier: "category", for: indexPath) as! CategoryTableViewCell;
             
@@ -309,6 +385,17 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
             }
             
             return cell;
+        }else{
+            let cell = tableView.dequeueReusableCell(withIdentifier: "sidemenu", for: indexPath) as! SideBarTableViewCell;
+            
+            cell.lblSideBarMenuItem.text = (sideMenuItems.object(at: indexPath.row) as! NSString) as String;
+            if indexPath.row == previousIndexPath_sideMenu.row {
+                cell.constraintViewSelectionTrailingSpace.constant = 30;
+            }else{
+                cell.constraintViewSelectionTrailingSpace.constant = 278;
+            }
+            
+            return cell;
         }
     }
     
@@ -318,12 +405,37 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
         adjustConstraint();
         viewFilter.isHidden = true;
         viewVoiceAssistant.isHidden = true;
+
+        let tintedImage = origImage.withRenderingMode(.alwaysTemplate);
+        btnVoiceAssistant.setImage(tintedImage, for: .normal);
+        btnVoiceAssistant.tintColor = global.redColor;
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated);
         
+        if fullNameString != "" {
+            lblUserName.text = fullNameString;
+        }
+        
+        if imagePP != #imageLiteral(resourceName: "UserProfilePicture"){
+            imgViewUserProfilePicture.image = imagePP;
+        }
+        
+        if imgViewUserProfilePicture.image != #imageLiteral(resourceName: "UserProfilePicture") {
+            imgViewUserProfilePicture.layer.borderWidth=0.5
+            imgViewUserProfilePicture.layer.masksToBounds = false
+            imgViewUserProfilePicture.layer.borderColor = UIColor.white.cgColor
+            imgViewUserProfilePicture.layer.cornerRadius = imgViewUserProfilePicture.frame.size.height/2
+            imgViewUserProfilePicture.clipsToBounds = true
+        }
     }
     
     func adjustConstraint() {
         self.view.layoutIfNeeded();
-        constraintViewBackgroundTopSpace.constant = self.view.frame.height;
+        constraintViewBackgroundTopSpace.constant = self.view.frame.height-70;
+        constraintBackgroundSidebarTrailing.constant = view.frame.size.width;
+        constraintSideBarViewLeading.constant = -280;
         if global.isIphone4OrLess() {
             constraintViewCategoryHeight.constant = 40;
             constraintViewFilterTopSpace.constant = 71;

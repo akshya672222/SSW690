@@ -18,6 +18,8 @@
 		BA544DFA1E415508001034BD /* StevensLiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA544DF91E415508001034BD /* StevensLiveTests.swift */; };
 		BA544E051E415508001034BD /* StevensLiveUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA544E041E415508001034BD /* StevensLiveUITests.swift */; };
 		BAB31DAD1E4A62D000F13812 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB31DAC1E4A62D000F13812 /* CategoryTableViewCell.swift */; };
+		BAFE70591E640AA000BE5292 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFE70581E640AA000BE5292 /* RegistrationViewController.swift */; };
+		BAFE705B1E64330B00BE5292 /* SideBarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFE705A1E64330B00BE5292 /* SideBarTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +57,8 @@
 		BA544E041E415508001034BD /* StevensLiveUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StevensLiveUITests.swift; sourceTree = "<group>"; };
 		BA544E061E415508001034BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BAB31DAC1E4A62D000F13812 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
+		BAFE70581E640AA000BE5292 /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		BAFE705A1E64330B00BE5292 /* SideBarTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideBarTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +100,7 @@
 				BA3B97801E4435D500ABCE57 /* HomeViewController.swift */,
 				BA3B97821E4464F700ABCE57 /* EventTableViewCell.swift */,
 				BAB31DAC1E4A62D000F13812 /* CategoryTableViewCell.swift */,
+				BAFE705A1E64330B00BE5292 /* SideBarTableViewCell.swift */,
 			);
 			path = HomeViewController;
 			sourceTree = "<group>";
@@ -123,6 +128,7 @@
 		BA544DE31E415508001034BD /* StevensLive */ = {
 			isa = PBXGroup;
 			children = (
+				BAFE70571E640A8B00BE5292 /* RegistrationViewController */,
 				BA3B977F1E4435C500ABCE57 /* HomeViewController */,
 				BA3B977C1E426AB400ABCE57 /* Global Classes */,
 				BA544DE41E415508001034BD /* AppDelegate.swift */,
@@ -151,6 +157,14 @@
 				BA544E061E415508001034BD /* Info.plist */,
 			);
 			path = StevensLiveUITests;
+			sourceTree = "<group>";
+		};
+		BAFE70571E640A8B00BE5292 /* RegistrationViewController */ = {
+			isa = PBXGroup;
+			children = (
+				BAFE70581E640AA000BE5292 /* RegistrationViewController.swift */,
+			);
+			path = RegistrationViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -292,8 +306,10 @@
 			files = (
 				BA544DE71E415508001034BD /* ViewController.swift in Sources */,
 				BA3B977E1E426B1000ABCE57 /* GlobalFunction.swift in Sources */,
+				BAFE705B1E64330B00BE5292 /* SideBarTableViewCell.swift in Sources */,
 				BA544DE51E415508001034BD /* AppDelegate.swift in Sources */,
 				BA3B97831E4464F700ABCE57 /* EventTableViewCell.swift in Sources */,
+				BAFE70591E640AA000BE5292 /* RegistrationViewController.swift in Sources */,
 				BA3B97811E4435D500ABCE57 /* HomeViewController.swift in Sources */,
 				BAB31DAD1E4A62D000F13812 /* CategoryTableViewCell.swift in Sources */,
 			);
