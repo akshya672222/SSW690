@@ -74,6 +74,25 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
     var fullNameString = String();
     var imagePP = #imageLiteral(resourceName: "UserProfilePicture");
     
+    @IBOutlet weak var constraintSearchBarLeading: NSLayoutConstraint!
+    
+    @IBOutlet weak var btnBackToMainView: UIButton!
+    
+    @IBOutlet weak var btnClearSearchTextField: UIButton!
+    
+    @IBOutlet weak var textFieldSearch: UITextField!
+
+    @IBAction func closeSearch(_ sender: Any) {
+        view.layoutIfNeeded();
+        constraintSearchBarLeading.constant = 500;
+        UIView.animate(withDuration: 1.0) { 
+            self.view.layoutIfNeeded();
+        };
+    }
+    
+    @IBAction func clearTextField(_ sender: Any) {
+    }
+    
     @IBAction func logoutClicked(_ sender: Any) {
         let alertV = UIAlertController(title: "LOGOUT",
                                        message: "Are you sure? You want to Logout.",
@@ -107,6 +126,11 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
     }
     
     @IBAction func searchClicked(_ sender: Any) {
+        view.layoutIfNeeded();
+        constraintSearchBarLeading.constant = 0;
+        UIView.animate(withDuration: 1.0) {
+            self.view.layoutIfNeeded();
+        };
     }
     
     @IBAction func openSideMenu(_ sender: Any) {
