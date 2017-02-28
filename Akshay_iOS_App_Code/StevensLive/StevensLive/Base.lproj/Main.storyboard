@@ -79,7 +79,7 @@
                                 </state>
                                 <connections>
                                     <action selector="loginClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wAA-rE-pQ3"/>
-                                    <segue destination="EBY-pI-dcw" kind="presentation" identifier="home" modalTransitionStyle="flipHorizontal" id="ybF-mv-wqr"/>
+                                    <segue destination="EBY-pI-dcw" kind="presentation" identifier="home" modalTransitionStyle="coverVertical" id="ybF-mv-wqr"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Ju-lY-o8s">
@@ -91,7 +91,7 @@
                                 </state>
                                 <connections>
                                     <action selector="signUpClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Wdu-vA-QZm"/>
-                                    <segue destination="k5H-kI-R8J" kind="presentation" identifier="signup" modalTransitionStyle="flipHorizontal" id="plZ-kq-uXO"/>
+                                    <segue destination="k5H-kI-R8J" kind="presentation" identifier="signup" modalTransitionStyle="coverVertical" id="plZ-kq-uXO"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2sA-lS-d9J">
@@ -242,7 +242,7 @@
                                             <action selector="clearTextField:" destination="EBY-pI-dcw" eventType="touchUpInside" id="eGp-zc-fjg"/>
                                         </connections>
                                     </button>
-                                    <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Type to search..." textAlignment="natural" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="dr6-fz-BA1">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Type to search..." textAlignment="natural" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="dr6-fz-BA1">
                                         <rect key="frame" x="70" y="22" width="235" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="9gL-7L-0Te"/>
@@ -599,10 +599,6 @@
                                     <constraint firstItem="lvu-cr-nF5" firstAttribute="top" secondItem="1IZ-La-yHf" secondAttribute="top" constant="10" id="z74-rP-5WC"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o1w-yq-bAu" userLabel="Viewsearchtableviewholder">
-                                <rect key="frame" x="500" y="70" width="375" height="597"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                             <view alpha="0.65000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Po6-ir-26I" userLabel="BackgroundViewForSideBar">
                                 <rect key="frame" x="0.0" y="0.0" width="0.0" height="667"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -774,19 +770,15 @@
                             <constraint firstAttribute="trailing" secondItem="Po6-ir-26I" secondAttribute="trailing" constant="375" id="4o9-jM-z6a"/>
                             <constraint firstItem="i2z-Xw-Ao1" firstAttribute="top" secondItem="bZK-Lc-LbX" secondAttribute="top" id="BZW-iL-YyN"/>
                             <constraint firstItem="APm-yu-rfP" firstAttribute="top" secondItem="wUn-gD-adZ" secondAttribute="bottom" constant="597" id="CVW-TD-uch"/>
-                            <constraint firstAttribute="bottom" secondItem="o1w-yq-bAu" secondAttribute="bottom" id="Cju-1x-uhl"/>
                             <constraint firstAttribute="trailing" secondItem="APm-yu-rfP" secondAttribute="trailing" id="FX9-tu-ckM"/>
                             <constraint firstItem="wUn-gD-adZ" firstAttribute="leading" secondItem="bZK-Lc-LbX" secondAttribute="leading" id="H6b-y5-wyx"/>
                             <constraint firstItem="G5E-bA-JIJ" firstAttribute="top" secondItem="wUn-gD-adZ" secondAttribute="bottom" id="IJN-ov-N5M"/>
                             <constraint firstAttribute="trailing" secondItem="wUn-gD-adZ" secondAttribute="trailing" id="JUA-74-lln"/>
-                            <constraint firstItem="o1w-yq-bAu" firstAttribute="trailing" secondItem="i2z-Xw-Ao1" secondAttribute="trailing" id="MAT-Zm-ya5"/>
                             <constraint firstAttribute="bottom" secondItem="1IZ-La-yHf" secondAttribute="bottom" id="McT-JZ-yQs"/>
                             <constraint firstAttribute="bottom" secondItem="Po6-ir-26I" secondAttribute="bottom" id="QNm-LK-BQI"/>
                             <constraint firstItem="i2z-Xw-Ao1" firstAttribute="leading" secondItem="bZK-Lc-LbX" secondAttribute="leading" constant="500" id="TUu-ha-Mge"/>
                             <constraint firstItem="i2z-Xw-Ao1" firstAttribute="width" secondItem="bZK-Lc-LbX" secondAttribute="width" id="WFi-hB-lmf"/>
                             <constraint firstAttribute="bottom" secondItem="APm-yu-rfP" secondAttribute="bottom" id="Yol-yS-3N0"/>
-                            <constraint firstItem="o1w-yq-bAu" firstAttribute="leading" secondItem="i2z-Xw-Ao1" secondAttribute="leading" id="ZJS-cU-p6E"/>
-                            <constraint firstItem="o1w-yq-bAu" firstAttribute="top" secondItem="i2z-Xw-Ao1" secondAttribute="bottom" id="b6P-HO-FMa"/>
                             <constraint firstItem="Po6-ir-26I" firstAttribute="leading" secondItem="bZK-Lc-LbX" secondAttribute="leading" id="dYH-SQ-Il2"/>
                             <constraint firstItem="X4P-yf-fXj" firstAttribute="top" secondItem="bZK-Lc-LbX" secondAttribute="top" id="eMG-Ys-1tN"/>
                             <constraint firstAttribute="trailing" secondItem="G5E-bA-JIJ" secondAttribute="trailing" id="fQG-Of-Wsm"/>
@@ -975,7 +967,7 @@
                                 </state>
                                 <connections>
                                     <action selector="registerClicked:" destination="k5H-kI-R8J" eventType="touchUpInside" id="yHj-gG-7VK"/>
-                                    <segue destination="EBY-pI-dcw" kind="presentation" identifier="registerSuccess" modalTransitionStyle="flipHorizontal" id="7BW-Vy-qWq"/>
+                                    <segue destination="EBY-pI-dcw" kind="presentation" identifier="registerSuccess" modalTransitionStyle="coverVertical" id="7BW-Vy-qWq"/>
                                 </connections>
                             </button>
                         </subviews>

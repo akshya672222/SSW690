@@ -67,6 +67,7 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
     let global = GlobalFunction();
     var origImage = #imageLiteral(resourceName: "Voice") as UIImage;
     let categoryList = ["Admissions - Graduate", "Admissions - Undergraduate", "Alumni", "Athletics", "Career Development", "Conferences", "Health & Wellness", "Open to the Public", "Performing & Visual Arts", "Student Life", "Talks & Lectures", "University-wide"] as NSArray;
+    var arrayFilteredData = NSMutableArray();
     let sideMenuItems = ["Home", "My Subscriptions", "Settings"] as NSArray;
 
     var previousIndexPath = IndexPath();
@@ -82,7 +83,14 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
     
     @IBOutlet weak var textFieldSearch: UITextField!
 
+    var accessory_view = UIView();
+    var textFieldActive = UITextField();
+    var btnPrev = UIButton();
+    var btnNext = UIButton();
+    var btnDone = UIButton();
+
     @IBAction func closeSearch(_ sender: Any) {
+        textFieldSearch.resignFirstResponder();
         view.layoutIfNeeded();
         constraintSearchBarLeading.constant = 500;
         UIView.animate(withDuration: 1.0) { 
@@ -91,6 +99,9 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
     }
     
     @IBAction func clearTextField(_ sender: Any) {
+        textFieldSearch.text = "";
+        arrayFilteredData.removeAllObjects();
+        print(arrayFilteredData)
     }
     
     @IBAction func logoutClicked(_ sender: Any) {
@@ -334,6 +345,75 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
         return 0;
     }
     
+    func createInputAccessoryView() {
+        accessory_view = UIView.init(frame: CGRect.init(x: 0, y: 0, width: view.frame.size.width, height: 50));
+        accessory_view.backgroundColor = UIColor.lightGray;
+        accessory_view.alpha = 0.8;
+        
+        btnPrev = UIButton.init(type: UIButtonType.custom);
+        btnPrev.frame = CGRect.init(x: 0, y: 0, width: 80, height: 50);
+        btnPrev.setTitle("Previous", for: UIControlState.normal);
+        btnPrev.addTarget(self, action: #selector(ViewController.goToPrevTextField), for: UIControlEvents.touchUpInside);
+        
+        btnNext = UIButton.init(type: UIButtonType.custom);
+        btnNext.frame = CGRect.init(x: 85, y: 0, width: 80, height: 50);
+        btnNext.setTitle("Next", for: UIControlState.normal);
+        btnNext.addTarget(self, action: #selector(ViewController.goToNextTextField), for: UIControlEvents.touchUpInside);
+        
+        btnDone = UIButton.init(type: UIButtonType.custom);
+        btnDone.frame = CGRect.init(x: view.frame.size.width - 80, y: 0, width: 80, height: 50);
+        btnDone.setTitle("Done", for: UIControlState.normal);
+        btnDone.addTarget(self, action: #selector(ViewController.doneTyping), for: UIControlEvents.touchUpInside);
+        
+        accessory_view.addSubview(btnPrev);
+        accessory_view.addSubview(btnNext);
+        accessory_view.addSubview(btnDone);
+    }
+    
+    func goToPrevTextField() {
+        textFieldActive.resignFirstResponder();
+    }
+    
+    func goToNextTextField() {
+        textFieldActive.resignFirstResponder();
+    }
+    
+    func doneTyping() {
+        textFieldActive.resignFirstResponder();
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        createInputAccessoryView();
+        textField.inputAccessoryView = accessory_view;
+        textFieldActive = textField;
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder();
+        return true;
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool{
+        let string1 = string
+        let string2 = textFieldSearch.text
+        var finalString = ""
+        if string.characters.count > 0 { // if it was not delete character
+            finalString = string2! + string1
+        }else if (string2?.characters.count)! > 0{ // if it was a delete character
+            finalString = String(string2!.characters.dropLast())
+        }
+        filteredArray(searchString: finalString as NSString)// pass the search String in this method
+        return true
+    }
+    
+    func filteredArray(searchString:NSString){// we will use NSPredicate to find the string in array
+        let predicate = NSPredicate(format: "SELF contains[c] %@",searchString) // This will give all element of array which contains search string
+        //let predicate = NSPredicate(format: "SELF BEGINSWITH %@",searchString)// This will give all element of array which begins with search string (use one of them)
+        let arr = categoryList.filtered(using: predicate) as NSArray;
+        arrayFilteredData = arr.mutableCopy() as! NSMutableArray
+        print(arrayFilteredData)
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if tableView == tblViewEvent {
@@ -433,6 +513,9 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
         let tintedImage = origImage.withRenderingMode(.alwaysTemplate);
         btnVoiceAssistant.setImage(tintedImage, for: .normal);
         btnVoiceAssistant.tintColor = global.redColor;
+        
+        textFieldSearch.attributedPlaceholder = NSAttributedString(string: "Type to search...",
+                                                               attributes: [NSForegroundColorAttributeName: UIColor.white])
     }
     
     override func viewDidAppear(_ animated: Bool) {
