@@ -20,6 +20,7 @@
 		BAB31DAD1E4A62D000F13812 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB31DAC1E4A62D000F13812 /* CategoryTableViewCell.swift */; };
 		BAFE70591E640AA000BE5292 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFE70581E640AA000BE5292 /* RegistrationViewController.swift */; };
 		BAFE705B1E64330B00BE5292 /* SideBarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFE705A1E64330B00BE5292 /* SideBarTableViewCell.swift */; };
+		BAFFF4711E67B3AD00AC424C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFFF4701E67B3AD00AC424C /* SettingsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		BAB31DAC1E4A62D000F13812 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		BAFE70581E640AA000BE5292 /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		BAFE705A1E64330B00BE5292 /* SideBarTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideBarTableViewCell.swift; sourceTree = "<group>"; };
+		BAFFF4701E67B3AD00AC424C /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 		BA544DE31E415508001034BD /* StevensLive */ = {
 			isa = PBXGroup;
 			children = (
+				BAFFF46F1E67B39D00AC424C /* SettingsViewController */,
 				BAFE70571E640A8B00BE5292 /* RegistrationViewController */,
 				BA3B977F1E4435C500ABCE57 /* HomeViewController */,
 				BA3B977C1E426AB400ABCE57 /* Global Classes */,
@@ -165,6 +168,14 @@
 				BAFE70581E640AA000BE5292 /* RegistrationViewController.swift */,
 			);
 			path = RegistrationViewController;
+			sourceTree = "<group>";
+		};
+		BAFFF46F1E67B39D00AC424C /* SettingsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				BAFFF4701E67B3AD00AC424C /* SettingsViewController.swift */,
+			);
+			path = SettingsViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -312,6 +323,7 @@
 				BAFE70591E640AA000BE5292 /* RegistrationViewController.swift in Sources */,
 				BA3B97811E4435D500ABCE57 /* HomeViewController.swift in Sources */,
 				BAB31DAD1E4A62D000F13812 /* CategoryTableViewCell.swift in Sources */,
+				BAFFF4711E67B3AD00AC424C /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -67,4 +67,37 @@ class GlobalFunction{
         return emailTest.evaluate(with: testStr)
     }
     
+    func createShadowOnView(view: UIView, color: UIColor, width: CGFloat, height: CGFloat, shadowOpacity: CGFloat, shadowRadius: CGFloat) {
+        view.layer.masksToBounds = false;
+        view.layer.shadowColor = color.cgColor;
+        view.layer.shadowOffset = CGSize.init(width: width, height: height);
+        view.layer.shadowOpacity = Float(shadowOpacity);
+        view.layer.shadowRadius = shadowRadius;
+    }
+    
+    func roundCornerOfView(view: UIView, cornerRadius: CGFloat) {
+        view.layer.cornerRadius = cornerRadius;
+        view.layer.masksToBounds = false;
+    }
+    
+    func addBorderToView(view: UIView, color: UIColor, width: CGFloat) {
+        view.layer.borderWidth = width;
+        view.layer.borderColor = color.cgColor; 
+    }
+    
+//    +(void)createShadowOnView:(UIView *)view color:(UIColor *)color width:(CGFloat)width height:(CGFloat)height shadowOpacity:(CGFloat)shadowOpacity andShadowRadius:(CGFloat)radius{
+//    
+//
+//    }
+//    
+//    +(void)roundCornerOfView:(UIView *)view cornerRadius:(CGFloat)cornerRadius{
+//
+//    }
+//
+//    +(void)addborderTo:(UIView *)view withColor:(UIColor *)color andWidth:(CGFloat)width{
+//    
+//
+//    }
+
+    
 }

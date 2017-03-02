@@ -327,6 +327,10 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
                     self.view.layoutIfNeeded();
                 }, completion: { (True) in
                     self.closeSideBar();
+                    if indexPath.row == 2{
+                        let settingsVC = self.storyboard?.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
+                        self.present(settingsVC, animated: True, completion: nil);
+                    }
                     // close side bar and navigate to view
                 });
             }
@@ -536,6 +540,9 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
             imgViewUserProfilePicture.layer.cornerRadius = imgViewUserProfilePicture.frame.size.height/2
             imgViewUserProfilePicture.clipsToBounds = true
         }
+        
+        previousIndexPath_sideMenu.row = 0;
+        tableViewSideBar.reloadData();
     }
     
     func adjustConstraint() {

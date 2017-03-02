@@ -22,8 +22,6 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
     
     @IBOutlet weak var textFieldFullName: UITextField!
     
-    @IBOutlet weak var textFieldCWID: UITextField!
-    
     @IBOutlet weak var imageViewUserProfilePicture: UIImageView!
     
     @IBOutlet weak var constraintTextFieldHolderViewBottom: NSLayoutConstraint!
@@ -39,6 +37,11 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
     var btnDone = UIButton();
     var global = GlobalFunction();
     
+//    var tfEmail = UITextField();
+//    var tfFirstName = UITextField();
+//    var tfLastName = UITextField();
+//    var tfPassword = UITextField();
+//    var tfConfirmPassword = UITextField();
 
     func createInputAccessoryView() {
         accessory_view = UIView.init(frame: CGRect.init(x: 0, y: 0, width: view.frame.size.width, height: 50));
@@ -80,9 +83,6 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
         }else if textFieldActive == textFieldFullName{
             textFieldFullName.resignFirstResponder();
             textFieldConfirmPassword.becomeFirstResponder();
-        }else if textFieldActive == textFieldCWID{
-            textFieldCWID.resignFirstResponder();
-            textFieldFullName.becomeFirstResponder();
         }
     }
     
@@ -100,9 +100,6 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
             textFieldConfirmPassword.resignFirstResponder();
             textFieldFullName.becomeFirstResponder();
         }else if textFieldActive == textFieldFullName{
-            textFieldFullName.resignFirstResponder();
-            textFieldCWID.becomeFirstResponder();
-        }else if textFieldActive == textFieldCWID{
             bringTextFieldDown(textField: textFieldActive);
         }
     }
@@ -115,7 +112,7 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
         textField.resignFirstResponder();
         view.layoutIfNeeded();
         constraintTextFieldHolderViewTop.constant = 0;
-        constraintTextFieldHolderViewBottom.constant = 20;
+        constraintTextFieldHolderViewBottom.constant = 40;
         UIView.animate(withDuration: 1.0, animations: {
             self.view.layoutIfNeeded();
         });
@@ -142,13 +139,10 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
             viewShift = 120;
         }else if textField == textFieldFullName{
             viewShift = 170;
-        }else if textField == textFieldCWID{
-            viewShift = 200;
         }
-        
         view.layoutIfNeeded();
         constraintTextFieldHolderViewTop.constant = -(CGFloat)(viewShift);
-        constraintTextFieldHolderViewBottom.constant = CGFloat(viewShift)+20;
+        constraintTextFieldHolderViewBottom.constant = CGFloat(viewShift)+40;
         UIView.animate(withDuration: 1.0, animations: {
             self.view.layoutIfNeeded();
         });
@@ -199,14 +193,18 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
         textFieldPassword.delegate = self;
         textFieldConfirmPassword.delegate = self;
         textFieldFullName.delegate = self;
-        textFieldCWID.delegate = self;
         
+//        var tfEmail = textFieldEmail;
+//        var tfFirstName = textFieldUsername;
+//        var tfLastName = textFieldPassword;
+//        var tfPassword = textFieldConfirmPassword;
+//        var tfConfirmPassword = textFieldFullName;
+
         setupTextFields(textField: textFieldEmail);
         setupTextFields(textField: textFieldUsername);
         setupTextFields(textField: textFieldPassword);
         setupTextFields(textField: textFieldConfirmPassword);
         setupTextFields(textField: textFieldFullName);
-        setupTextFields(textField: textFieldCWID);
 
         btnRegister.layer.cornerRadius = 2.0;
         btnRegister.layer.masksToBounds = true;
