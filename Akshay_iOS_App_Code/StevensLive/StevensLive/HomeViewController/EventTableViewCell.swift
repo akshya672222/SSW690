@@ -21,4 +21,6 @@ class EventTableViewCell: UITableViewCell {
     
     @IBOutlet weak var lblEventCategory: UILabel!
     
+    @IBOutlet weak var btnAddReminder: UIButton!
+    
 }

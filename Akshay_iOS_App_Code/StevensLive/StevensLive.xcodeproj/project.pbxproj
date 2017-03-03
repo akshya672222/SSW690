@@ -21,6 +21,8 @@
 		BAFE70591E640AA000BE5292 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFE70581E640AA000BE5292 /* RegistrationViewController.swift */; };
 		BAFE705B1E64330B00BE5292 /* SideBarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFE705A1E64330B00BE5292 /* SideBarTableViewCell.swift */; };
 		BAFFF4711E67B3AD00AC424C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFFF4701E67B3AD00AC424C /* SettingsViewController.swift */; };
+		BAFFF4741E6A0DAC00AC424C /* MySubscriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFFF4731E6A0DAC00AC424C /* MySubscriptionViewController.swift */; };
+		BAFFF4771E6A1BE800AC424C /* EventDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFFF4761E6A1BE800AC424C /* EventDescriptionViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +63,8 @@
 		BAFE70581E640AA000BE5292 /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		BAFE705A1E64330B00BE5292 /* SideBarTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideBarTableViewCell.swift; sourceTree = "<group>"; };
 		BAFFF4701E67B3AD00AC424C /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		BAFFF4731E6A0DAC00AC424C /* MySubscriptionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySubscriptionViewController.swift; sourceTree = "<group>"; };
+		BAFFF4761E6A1BE800AC424C /* EventDescriptionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDescriptionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +134,8 @@
 		BA544DE31E415508001034BD /* StevensLive */ = {
 			isa = PBXGroup;
 			children = (
+				BAFFF4751E6A1BD400AC424C /* EventDescriptionViewController */,
+				BAFFF4721E6A0D8C00AC424C /* MySubscriptionViewController */,
 				BAFFF46F1E67B39D00AC424C /* SettingsViewController */,
 				BAFE70571E640A8B00BE5292 /* RegistrationViewController */,
 				BA3B977F1E4435C500ABCE57 /* HomeViewController */,
@@ -176,6 +182,22 @@
 				BAFFF4701E67B3AD00AC424C /* SettingsViewController.swift */,
 			);
 			path = SettingsViewController;
+			sourceTree = "<group>";
+		};
+		BAFFF4721E6A0D8C00AC424C /* MySubscriptionViewController */ = {
+			isa = PBXGroup;
+			children = (
+				BAFFF4731E6A0DAC00AC424C /* MySubscriptionViewController.swift */,
+			);
+			path = MySubscriptionViewController;
+			sourceTree = "<group>";
+		};
+		BAFFF4751E6A1BD400AC424C /* EventDescriptionViewController */ = {
+			isa = PBXGroup;
+			children = (
+				BAFFF4761E6A1BE800AC424C /* EventDescriptionViewController.swift */,
+			);
+			path = EventDescriptionViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -246,8 +268,8 @@
 				TargetAttributes = {
 					BA544DE01E415508001034BD = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 8T495NXCBQ;
-						ProvisioningStyle = Manual;
+						DevelopmentTeam = 3GRVS95TMT;
+						ProvisioningStyle = Automatic;
 					};
 					BA544DF41E415508001034BD = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -316,7 +338,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA544DE71E415508001034BD /* ViewController.swift in Sources */,
+				BAFFF4741E6A0DAC00AC424C /* MySubscriptionViewController.swift in Sources */,
 				BA3B977E1E426B1000ABCE57 /* GlobalFunction.swift in Sources */,
+				BAFFF4771E6A1BE800AC424C /* EventDescriptionViewController.swift in Sources */,
 				BAFE705B1E64330B00BE5292 /* SideBarTableViewCell.swift in Sources */,
 				BA544DE51E415508001034BD /* AppDelegate.swift in Sources */,
 				BA3B97831E4464F700ABCE57 /* EventTableViewCell.swift in Sources */,
@@ -478,14 +502,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Thoma Ricard (P8NBX24875)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Thoma Ricard (P8NBX24875)";
-				DEVELOPMENT_TEAM = 8T495NXCBQ;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 3GRVS95TMT;
 				INFOPLIST_FILE = StevensLive/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = AKSHAY.StevensLive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6a3e89c2-ea0c-43c7-9ec6-39eacd5e52dd";
-				PROVISIONING_PROFILE_SPECIFIER = AllApps_20160214;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -495,14 +520,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Thoma Ricard (P8NBX24875)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Thoma Ricard (P8NBX24875)";
-				DEVELOPMENT_TEAM = 8T495NXCBQ;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 3GRVS95TMT;
 				INFOPLIST_FILE = StevensLive/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = AKSHAY.StevensLive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6a3e89c2-ea0c-43c7-9ec6-39eacd5e52dd";
-				PROVISIONING_PROFILE_SPECIFIER = AllApps_20160214;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

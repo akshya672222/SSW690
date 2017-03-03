@@ -69,6 +69,7 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
     let categoryList = ["Admissions - Graduate", "Admissions - Undergraduate", "Alumni", "Athletics", "Career Development", "Conferences", "Health & Wellness", "Open to the Public", "Performing & Visual Arts", "Student Life", "Talks & Lectures", "University-wide"] as NSArray;
     var arrayFilteredData = NSMutableArray();
     let sideMenuItems = ["Home", "My Subscriptions", "Settings"] as NSArray;
+    var arrayReminders = NSMutableArray();
 
     var previousIndexPath = IndexPath();
     var previousIndexPath_sideMenu = IndexPath.init(row: 0, section: 0);
@@ -89,6 +90,22 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
     var btnNext = UIButton();
     var btnDone = UIButton();
 
+    @IBAction func addReminderClicked(_ sender: Any) {
+        
+        let indexPth = IndexPath.init(row: (sender as AnyObject).tag, section: 0);
+        let tblCell: EventTableViewCell = tblViewEvent.cellForRow(at: indexPth) as! EventTableViewCell;
+        
+        if tblCell.btnAddReminder.isSelected{
+            tblCell.btnAddReminder.isSelected = false;
+            arrayReminders.remove(tblCell.btnAddReminder.tag);
+        }else{
+            tblCell.btnAddReminder.isSelected = true;
+            arrayReminders.add(tblCell.btnAddReminder.tag);
+        }
+        
+    }
+    
+    
     @IBAction func closeSearch(_ sender: Any) {
         textFieldSearch.resignFirstResponder();
         view.layoutIfNeeded();
@@ -330,11 +347,17 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
                     if indexPath.row == 2{
                         let settingsVC = self.storyboard?.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
                         self.present(settingsVC, animated: True, completion: nil);
+                    }else if indexPath.row == 1{
+                        let mySubscriptionVC = self.storyboard?.instantiateViewController(withIdentifier: "MySubscriptionViewController") as! MySubscriptionViewController
+                        self.present(mySubscriptionVC, animated: True, completion: nil);
                     }
                     // close side bar and navigate to view
                 });
             }
             previousIndexPath_sideMenu = indexPath;
+        }else if tableView == tblViewEvent{
+            let eventDetailsVC = self.storyboard?.instantiateViewController(withIdentifier: "EventDescriptionViewController") as! EventDescriptionViewController
+            self.present(eventDetailsVC, animated: true, completion: nil);
         }
     }
     
@@ -425,9 +448,14 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
             
             cell.lblEventName.text = "Snowtubing at Mountain";
             cell.lblEventDayAndTime.text = "Feb, 20, 2017 AT 12:00 PM";
-            cell.lblNumberOfAttandee.text = "100+ Attending";
             cell.lblEventCategory.text = "Debaun Auditorium";
-            cell.imgViewEvent.image = #imageLiteral(resourceName: "StevensLogo");
+            cell.btnAddReminder.tag = indexPath.row;
+            
+            if arrayReminders.contains(cell.btnAddReminder.tag) {
+                cell.btnAddReminder.isSelected = true;
+            }else{
+                cell.btnAddReminder.isSelected = false;
+            }
             
             let font = cell.lblEventCategory.font;
             
