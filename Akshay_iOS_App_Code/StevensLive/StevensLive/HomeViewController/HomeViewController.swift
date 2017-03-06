@@ -68,7 +68,7 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
     var origImage = #imageLiteral(resourceName: "Voice") as UIImage;
     let categoryList = ["Admissions - Graduate", "Admissions - Undergraduate", "Alumni", "Athletics", "Career Development", "Conferences", "Health & Wellness", "Open to the Public", "Performing & Visual Arts", "Student Life", "Talks & Lectures", "University-wide"] as NSArray;
     var arrayFilteredData = NSMutableArray();
-    let sideMenuItems = ["Home", "My Subscriptions", "Settings"] as NSArray;
+    let sideMenuItems = ["Home", "My Subscriptions", "My Reminders", "Settings"] as NSArray;
     var arrayReminders = NSMutableArray();
 
     var previousIndexPath = IndexPath();
@@ -344,12 +344,15 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
                     self.view.layoutIfNeeded();
                 }, completion: { (True) in
                     self.closeSideBar();
-                    if indexPath.row == 2{
+                    if indexPath.row == 3{
                         let settingsVC = self.storyboard?.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
                         self.present(settingsVC, animated: True, completion: nil);
                     }else if indexPath.row == 1{
                         let mySubscriptionVC = self.storyboard?.instantiateViewController(withIdentifier: "MySubscriptionViewController") as! MySubscriptionViewController
                         self.present(mySubscriptionVC, animated: True, completion: nil);
+                    }else if indexPath.row == 2{
+                        let myReminderVC = self.storyboard?.instantiateViewController(withIdentifier: "MyReminderViewController") as! MyReminderViewController
+                        self.present(myReminderVC, animated: True, completion: nil);
                     }
                     // close side bar and navigate to view
                 });
