@@ -262,6 +262,8 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
         global.roundCornerOfView(view: viewShowPassword, cornerRadius: viewShowPassword.frame.size.height/2);
         global.roundCornerOfView(view: viewShowFirstName, cornerRadius: viewShowFirstName.frame.size.height/2);
 
+        global.removeIndicatorView();
+
     }
     
     var imagePicker = UIImagePickerController();

@@ -78,6 +78,7 @@ class MySubscriptionViewController: UIViewController, UITableViewDelegate, UITab
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated);
+        global.removeIndicatorView();
     }
 
 }

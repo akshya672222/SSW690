@@ -9,6 +9,8 @@
 import Foundation
 import QuartzCore
 import UIKit
+import SVProgressHUD
+
 
 class GlobalFunction{
     
@@ -85,19 +87,20 @@ class GlobalFunction{
         view.layer.borderColor = color.cgColor; 
     }
     
-//    +(void)createShadowOnView:(UIView *)view color:(UIColor *)color width:(CGFloat)width height:(CGFloat)height shadowOpacity:(CGFloat)shadowOpacity andShadowRadius:(CGFloat)radius{
-//    
-//
-//    }
-//    
-//    +(void)roundCornerOfView:(UIView *)view cornerRadius:(CGFloat)cornerRadius{
-//
-//    }
-//
-//    +(void)addborderTo:(UIView *)view withColor:(UIColor *)color andWidth:(CGFloat)width{
-//    
-//
-//    }
-
+    func addIndicatorView() {
+        UIApplication.shared.beginIgnoringInteractionEvents();
+        SVProgressHUD.setDefaultStyle(SVProgressHUDStyle.custom);
+        SVProgressHUD.setDefaultMaskType(SVProgressHUDMaskType.black);
+        SVProgressHUD.setDefaultAnimationType(SVProgressHUDAnimationType.flat);
+        SVProgressHUD.setBackgroundColor(redColor);
+        SVProgressHUD.setBackgroundLayerColor(redColor);
+        SVProgressHUD.setForegroundColor(UIColor.white);
+        SVProgressHUD.show(withStatus: "Please wait...");
+    }
+    
+    func removeIndicatorView() {
+        SVProgressHUD.dismiss(withDelay: 1.0);
+        UIApplication.shared.endIgnoringInteractionEvents();
+    }
     
 }

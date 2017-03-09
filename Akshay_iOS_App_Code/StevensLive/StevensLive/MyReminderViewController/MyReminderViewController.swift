@@ -19,7 +19,16 @@ class MyReminderViewController: UIViewController, UITableViewDataSource, UITable
     @IBOutlet weak var tblViewEventsReminder: UITableView!
     let global = GlobalFunction();
     var arrayReminders = NSMutableArray();
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated);
+        global.removeIndicatorView();
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == tblViewEventsReminder{
             let eventDetailsVC = self.storyboard?.instantiateViewController(withIdentifier: "EventDescriptionViewController") as! EventDescriptionViewController

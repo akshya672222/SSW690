@@ -16,6 +16,8 @@ class EventDescriptionViewController: UIViewController{
         self.dismiss(animated: true, completion: nil);
     }
 
+    let global = GlobalFunction();
+    
     @IBOutlet weak var lblEventTitle: UILabel!
 
     @IBOutlet weak var lblEventDate: UILabel!
@@ -38,5 +40,6 @@ class EventDescriptionViewController: UIViewController{
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated);
+        global.removeIndicatorView();
     }
 }

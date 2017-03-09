@@ -211,6 +211,11 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
         
         // Do any additional setup after loading the view, typically from a nib.
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated);
+        global.removeIndicatorView();
+    }
 
     @IBAction func backClicked(_ sender: Any) {
         

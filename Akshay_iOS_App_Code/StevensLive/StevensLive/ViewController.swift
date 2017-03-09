@@ -8,6 +8,7 @@
 
 import UIKit
 import QuartzCore
+import Alamofire
 
 class ViewController: UIViewController, UITextFieldDelegate{
 
@@ -67,11 +68,26 @@ class ViewController: UIViewController, UITextFieldDelegate{
     
     @IBAction func loginClicked(_ sender: Any) {
         
+//        http://127.0.0.1:5000/
+        
+        Alamofire.request("http://ec2-35-163-201-39.us-west-2.compute.amazonaws.com/hello").response { response in
+            print("Request: \(response.request)")
+            print("Response: \(response.response)")
+            print("Error: \(response.error)")
+            
+            if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
+                print("Data: \(utf8Text)")
+            }
+        }
         
     }
     
     @IBAction func signUpClicked(_ sender: Any) {
         
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        global.addIndicatorView();
     }
     
     
@@ -148,6 +164,11 @@ class ViewController: UIViewController, UITextFieldDelegate{
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:handleCancel))
         alert.addAction(UIAlertAction(title: "Done", style: .default, handler:handleDone))
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated);
+        global.removeIndicatorView();
     }
 
     override func didReceiveMemoryWarning() {

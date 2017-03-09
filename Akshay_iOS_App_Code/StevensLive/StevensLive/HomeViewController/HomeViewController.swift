@@ -337,6 +337,7 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
                 // close side bar and do nothing
                 closeSideBar();
             }else{
+                global.addIndicatorView();
                 self.view.layoutIfNeeded();
                 cell.constraintViewSelectionTrailingSpace.constant = 30;
                 cell2.constraintViewSelectionTrailingSpace.constant = 278;
@@ -597,6 +598,12 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
         }
         constraintViewVoiceTopAlignment.constant = 600;
         self.view.layoutIfNeeded();
+        
+        global.removeIndicatorView();
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        global.addIndicatorView();
     }
     
     override func didReceiveMemoryWarning() {
