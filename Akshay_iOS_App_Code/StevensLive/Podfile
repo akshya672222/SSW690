@@ -8,6 +8,7 @@ target 'StevensLive' do
 pod 'Alamofire'
 pod 'SVProgressHUD'
 pod 'SwiftyJSON'
+pod 'CryptoSwift'
 
 # Pods for StevensLive
 

@@ -11,6 +11,7 @@
 		740C2DE19D710A1FE3685F36 /* Pods_StevensLiveTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE92F6DE9A21C76AF3DE0DC /* Pods_StevensLiveTests.framework */; };
 		B0F90558BFF4811A75A5D34E /* Pods_StevensLive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBF822D840282768F8CA17A6 /* Pods_StevensLive.framework */; };
 		BA01409B1E6CCC2F001157F2 /* MyReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA01409A1E6CCC2F001157F2 /* MyReminderViewController.swift */; };
+		BA268A601E77AC5300F160A9 /* WebServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA268A5F1E77AC5300F160A9 /* WebServices.swift */; };
 		BA3B977E1E426B1000ABCE57 /* GlobalFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3B977D1E426B1000ABCE57 /* GlobalFunction.swift */; };
 		BA3B97811E4435D500ABCE57 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3B97801E4435D500ABCE57 /* HomeViewController.swift */; };
 		BA3B97831E4464F700ABCE57 /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3B97821E4464F700ABCE57 /* EventTableViewCell.swift */; };
@@ -56,6 +57,7 @@
 		9AA7577839054F6EDAA72672 /* Pods-StevensLiveUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StevensLiveUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StevensLiveUITests/Pods-StevensLiveUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		A4F6D285948481C050A4A793 /* Pods-StevensLiveTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StevensLiveTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StevensLiveTests/Pods-StevensLiveTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BA01409A1E6CCC2F001157F2 /* MyReminderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyReminderViewController.swift; sourceTree = "<group>"; };
+		BA268A5F1E77AC5300F160A9 /* WebServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebServices.swift; sourceTree = "<group>"; };
 		BA3B977D1E426B1000ABCE57 /* GlobalFunction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalFunction.swift; sourceTree = "<group>"; };
 		BA3B97801E4435D500ABCE57 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		BA3B97821E4464F700ABCE57 /* EventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventTableViewCell.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				BA3B977D1E426B1000ABCE57 /* GlobalFunction.swift */,
+				BA268A5F1E77AC5300F160A9 /* WebServices.swift */,
 			);
 			path = "Global Classes";
 			sourceTree = "<group>";
@@ -540,6 +543,7 @@
 				BA3B977E1E426B1000ABCE57 /* GlobalFunction.swift in Sources */,
 				BAFFF4771E6A1BE800AC424C /* EventDescriptionViewController.swift in Sources */,
 				BA01409B1E6CCC2F001157F2 /* MyReminderViewController.swift in Sources */,
+				BA268A601E77AC5300F160A9 /* WebServices.swift in Sources */,
 				BAFE705B1E64330B00BE5292 /* SideBarTableViewCell.swift in Sources */,
 				BA544DE51E415508001034BD /* AppDelegate.swift in Sources */,
 				BA3B97831E4464F700ABCE57 /* EventTableViewCell.swift in Sources */,

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import QuartzCore
 
-class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, WebServicesDelegate{
 
     @IBOutlet weak var textFieldEmail: UITextField!
 
@@ -36,13 +36,10 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
     var btnNext = UIButton();
     var btnDone = UIButton();
     var global = GlobalFunction();
+    let webServiceObj = WebServices()
+    var image_name = ""
+    var user_image = UIImage()
     
-//    var tfEmail = UITextField();
-//    var tfFirstName = UITextField();
-//    var tfLastName = UITextField();
-//    var tfPassword = UITextField();
-//    var tfConfirmPassword = UITextField();
-
     func createInputAccessoryView() {
         accessory_view = UIView.init(frame: CGRect.init(x: 0, y: 0, width: view.frame.size.width, height: 50));
         accessory_view.backgroundColor = UIColor.lightGray;
@@ -188,18 +185,14 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        webServiceObj.webServiceDelegate = self
+        
         textFieldEmail.delegate = self;
         textFieldUsername.delegate = self;
         textFieldPassword.delegate = self;
         textFieldConfirmPassword.delegate = self;
         textFieldFullName.delegate = self;
         
-//        var tfEmail = textFieldEmail;
-//        var tfFirstName = textFieldUsername;
-//        var tfLastName = textFieldPassword;
-//        var tfPassword = textFieldConfirmPassword;
-//        var tfConfirmPassword = textFieldFullName;
-
         setupTextFields(textField: textFieldEmail);
         setupTextFields(textField: textFieldUsername);
         setupTextFields(textField: textFieldPassword);
@@ -235,6 +228,8 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
             UIAlertAction in
             self.openGallary()
         }
+        var removePic = UIAlertAction()
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel){
             UIAlertAction in
         }
@@ -243,6 +238,13 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
         imagePicker.delegate = self
         alert.addAction(cameraAction)
         alert.addAction(gallaryAction)
+        if image_name != "" {
+            removePic = UIAlertAction(title: "Remove Image", style: UIAlertActionStyle.default, handler: { UIAlertAction in
+                self.imageViewUserProfilePicture.image = #imageLiteral(resourceName: "UserProfilePicture")
+                self.image_name = ""
+            })
+            alert.addAction(removePic)
+        }
         alert.addAction(cancelAction)
         self.present(alert, animated: true, completion: nil)
     }
@@ -263,6 +265,7 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
 
         }
     }
+    
     func openGallary(){
         imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary;
         self.present(imagePicker, animated: true, completion: nil);
@@ -270,6 +273,9 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         picker.dismiss(animated: true, completion: nil);
+        
+        image_name = "user_image"
+        
         imageViewUserProfilePicture.image = info[UIImagePickerControllerOriginalImage] as? UIImage;
         
         imageViewUserProfilePicture.layer.borderWidth=0.5
@@ -284,9 +290,123 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
     }
     
     
+    func didFinishWithError(method: String, errorMessage: String) {
+        global.removeIndicatorView()
+        let alertV = UIAlertController(title: "ERROR", message: errorMessage, preferredStyle: .alert)
+        let alertOKAction=UIAlertAction(title:"OK", style: UIAlertActionStyle.default,handler: { action in
+            print("OK Button Pressed")
+        })
+        alertV.addAction(alertOKAction)
+        self.present(alertV, animated: true, completion: nil)
+    }
+    
+    func didFinishSuccessfully(method: String, dictionary: NSDictionary) {
+        print(dictionary)
+        if method == webServiceObj.method_registration {
+            global.removeIndicatorView()
+            global.userdefaults.set(webServiceObj.stringEncrypt(string: textFieldConfirmPassword.text!), forKey: "password")
+            global.userdefaults.set(textFieldEmail.text!, forKey: "username")
+            let alertV = UIAlertController(title: "STEVENS LIVE", message: dictionary["message"] as? String, preferredStyle: .alert)
+            let alertOKAction=UIAlertAction(title:"OK", style: UIAlertActionStyle.default,handler: { action in
+                self.global.addIndicatorView()
+                self.webServiceObj.loginUser(email: self.textFieldEmail.text!, password: self.textFieldConfirmPassword.text!, token: "")
+            })
+            alertV.addAction(alertOKAction)
+            self.present(alertV, animated: true, completion: nil)
+        }else if method == webServiceObj.method_login{
+            global.userdefaults.set(true, forKey: "isLogin")
+            self.performSegue(withIdentifier: "registerSuccess", sender: btnRegister)
+        }
+    }
+
+    
     @IBAction func registerClicked(_ sender: Any) {
-        
-        
+        if textFieldEmail.text == ""{
+            let alertV = UIAlertController(title: "ERROR", message: "ENTER YOUR EMAIL ADDRESS.", preferredStyle: .alert)
+            let alertOKAction=UIAlertAction(title:"OK", style: UIAlertActionStyle.default,handler: { action in
+                print("OK Button Pressed")
+            })
+            alertV.addAction(alertOKAction)
+            self.present(alertV, animated: true, completion: nil)
+            return
+        }
+        if textFieldUsername.text == ""{
+            let alertV = UIAlertController(title: "ERROR", message: "ENTER YOUR FIRST NAME.", preferredStyle: .alert)
+            let alertOKAction=UIAlertAction(title:"OK", style: UIAlertActionStyle.default,handler: { action in
+                print("OK Button Pressed")
+            })
+            alertV.addAction(alertOKAction)
+            self.present(alertV, animated: true, completion: nil)
+            return
+        }
+        if textFieldPassword.text == ""{
+            let alertV = UIAlertController(title: "ERROR", message: "ENTER YOUR LAST NAME.", preferredStyle: .alert)
+            let alertOKAction=UIAlertAction(title:"OK", style: UIAlertActionStyle.default,handler: { action in
+                print("OK Button Pressed")
+            })
+            alertV.addAction(alertOKAction)
+            self.present(alertV, animated: true, completion: nil)
+            return
+        }
+        if textFieldConfirmPassword.text == ""{
+            let alertV = UIAlertController(title: "ERROR", message: "ENTER YOUR PASSWORD.", preferredStyle: .alert)
+            let alertOKAction=UIAlertAction(title:"OK", style: UIAlertActionStyle.default,handler: { action in
+                print("OK Button Pressed")
+            })
+            alertV.addAction(alertOKAction)
+            self.present(alertV, animated: true, completion: nil)
+            return
+        }
+        if textFieldFullName.text == ""{
+            let alertV = UIAlertController(title: "ERROR", message: "PLEASE CONFIRM YOUR PASSWORD.", preferredStyle: .alert)
+            let alertOKAction=UIAlertAction(title:"OK", style: UIAlertActionStyle.default,handler: { action in
+                print("OK Button Pressed")
+            })
+            alertV.addAction(alertOKAction)
+            self.present(alertV, animated: true, completion: nil)
+            return
+        }
+        if textFieldConfirmPassword.text != textFieldFullName.text {
+            let alertV = UIAlertController(title: "ERROR", message: "BOTH PASSWORD DOESN'T MATCH.", preferredStyle: .alert)
+            let alertOKAction=UIAlertAction(title:"OK", style: UIAlertActionStyle.default,handler: { action in
+                print("OK Button Pressed")
+            })
+            alertV.addAction(alertOKAction)
+            self.present(alertV, animated: true, completion: nil)
+            return
+        }
+        if !global.isValidEmail(testStr: textFieldEmail.text!){
+            let alertV = UIAlertController(title: "ERROR", message: "PLEASE ENTER VALID STEVENS EMAIL ADDRESS.", preferredStyle: .alert)
+            let alertOKAction=UIAlertAction(title:"OK", style: UIAlertActionStyle.default,handler: { action in
+                print("OK Button Pressed")
+            })
+            alertV.addAction(alertOKAction)
+            self.present(alertV, animated: true, completion: nil)
+            return
+        }
+        if !global.isInternetAvailable(){
+            let alertV = UIAlertController(title: "ERROR", message: "PROBLEM CONNECTING INTERNET, PLEASE CHECK YOUR INTERNET CONNECTION AND TRY AGAIN.", preferredStyle: .alert)
+            let alertOKAction=UIAlertAction(title:"OK", style: UIAlertActionStyle.default,handler: { action in
+                print("OK Button Pressed")
+            })
+            alertV.addAction(alertOKAction)
+            self.present(alertV, animated: true, completion: nil)
+            return
+        }
+        global.addIndicatorView();
+        if image_name != ""{
+            webServiceObj.registerUser(email: textFieldEmail.text!, first_name: textFieldUsername.text!, last_name: textFieldPassword.text!, password: textFieldConfirmPassword.text!, image_name: image_name, image: imageViewUserProfilePicture.image)
+        }else{
+            webServiceObj.registerUser(email: textFieldEmail.text!, first_name: textFieldUsername.text!, last_name: textFieldPassword.text!, password: textFieldConfirmPassword.text!)
+        }
+    
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == "registerSuccess" {
+            return false
+        }
+        return true
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

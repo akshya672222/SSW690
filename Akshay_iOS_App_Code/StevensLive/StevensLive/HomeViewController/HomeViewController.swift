@@ -126,6 +126,7 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
                                        message: "Are you sure? You want to Logout.",
                                        preferredStyle: .alert)
         let alertYesAction=UIAlertAction(title:"YES", style: UIAlertActionStyle.destructive,handler: { action in
+            self.global.userdefaults.set(false, forKey: "isLogin")
             self.performSegue(withIdentifier: "logoutseague", sender: self)
         })
         let alertNoAction=UIAlertAction(title:"NO", style: UIAlertActionStyle.default,handler: { action in

@@ -10,7 +10,7 @@ import UIKit
 import QuartzCore
 import Alamofire
 
-class ViewController: UIViewController, UITextFieldDelegate{
+class ViewController: UIViewController, UITextFieldDelegate, WebServicesDelegate{
 
     //Text fields
     @IBOutlet weak var textFieldUsername: UITextField!
@@ -33,6 +33,9 @@ class ViewController: UIViewController, UITextFieldDelegate{
     var btnNext = UIButton();
     var btnDone = UIButton();
     let global = GlobalFunction();
+    
+    let webServiceObj = WebServices()
+    
 
     var tField: UITextField!
     
@@ -66,19 +69,68 @@ class ViewController: UIViewController, UITextFieldDelegate{
     var alert = UIAlertController(title: "RESET PASSWORD", message: "ENTER YOUR EMAIL TO RECEIVE RESET PASSWORD LINK.", preferredStyle: .alert)
     
     
+    func didFinishWithError(method: String, errorMessage: String) {
+        global.removeIndicatorView()
+        let alertV = UIAlertController(title: "ERROR", message: errorMessage, preferredStyle: .alert)
+        let alertOKAction=UIAlertAction(title:"OK", style: UIAlertActionStyle.default,handler: { action in
+            print("OK Button Pressed")
+        })
+        alertV.addAction(alertOKAction)
+        self.present(alertV, animated: true, completion: nil)
+    }
+    
+    func didFinishSuccessfully(method: String, dictionary: NSDictionary) {
+        print(dictionary)
+        if method == webServiceObj.method_login{
+            global.userdefaults.set(true, forKey: "isLogin")
+            global.userdefaults.set(webServiceObj.stringEncrypt(string: textFieldPassword.text!), forKey: "password")
+            global.userdefaults.set(textFieldUsername.text!, forKey: "username")
+            webServiceObj.getEventsList(pageNo: 0, lastmodifytime: "")
+        }else if method == webServiceObj.method_event_list{
+            self.performSegue(withIdentifier: "home", sender: btnLogin)
+        }
+    }
+    
     @IBAction func loginClicked(_ sender: Any) {
         
-//        http://127.0.0.1:5000/
-        
-        Alamofire.request("http://ec2-35-163-201-39.us-west-2.compute.amazonaws.com/hello").response { response in
-            print("Request: \(response.request)")
-            print("Response: \(response.response)")
-            print("Error: \(response.error)")
-            
-            if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
-                print("Data: \(utf8Text)")
-            }
+        if textFieldUsername.text == ""{
+            let alertV = UIAlertController(title: "ERROR", message: "ENTER YOUR EMAIL ADDRESS.", preferredStyle: .alert)
+            let alertOKAction=UIAlertAction(title:"OK", style: UIAlertActionStyle.default,handler: { action in
+                print("OK Button Pressed")
+            })
+            alertV.addAction(alertOKAction)
+            self.present(alertV, animated: true, completion: nil)
+            return
         }
+        if textFieldPassword.text == ""{
+            let alertV = UIAlertController(title: "ERROR", message: "ENTER YOUR PASSWORD.", preferredStyle: .alert)
+            let alertOKAction=UIAlertAction(title:"OK", style: UIAlertActionStyle.default,handler: { action in
+                print("OK Button Pressed")
+            })
+            alertV.addAction(alertOKAction)
+            self.present(alertV, animated: true, completion: nil)
+            return
+        }
+        if !global.isValidEmail(testStr: textFieldUsername.text!){
+            let alertV = UIAlertController(title: "ERROR", message: "PLEASE ENTER VALID STEVENS EMAIL ADDRESS.", preferredStyle: .alert)
+            let alertOKAction=UIAlertAction(title:"OK", style: UIAlertActionStyle.default,handler: { action in
+                print("OK Button Pressed")
+            })
+            alertV.addAction(alertOKAction)
+            self.present(alertV, animated: true, completion: nil)
+            return
+        }
+        if !global.isInternetAvailable(){
+            let alertV = UIAlertController(title: "ERROR", message: "PROBLEM CONNECTING INTERNET, PLEASE CHECK YOUR INTERNET CONNECTION AND TRY AGAIN.", preferredStyle: .alert)
+            let alertOKAction=UIAlertAction(title:"OK", style: UIAlertActionStyle.default,handler: { action in
+                print("OK Button Pressed")
+            })
+            alertV.addAction(alertOKAction)
+            self.present(alertV, animated: true, completion: nil)
+            return
+        }
+        global.addIndicatorView();
+        webServiceObj.loginUser(email: textFieldUsername.text!, password: textFieldPassword.text!, token: "")
         
     }
     
@@ -87,12 +139,48 @@ class ViewController: UIViewController, UITextFieldDelegate{
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        global.addIndicatorView();
+
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == "home"{
+            return false
+        }
+        return true
     }
     
     
     @IBAction func forgotMeClicked(_ sender: Any) {
+    
+//        webServiceObj.registerUser(email: "a", first_name: "a", last_name: "a", password: "a", image_name: "profile_pic", image: #imageLiteral(resourceName: "UserProfilePicture"))
         
+//        let imageData = UIImagePNGRepresentation(#imageLiteral(resourceName: "UserProfilePicture"))!
+//        
+//        Alamofire.upload(imageData, to: "http://127.0.0.1:5000/register").responseJSON { response in
+//            debugPrint(response)
+//        }
+
+//        Alamofire.upload(
+//            multipartFormData: { multipartFormData in
+//                multipartFormData.append("aks2@stevens.edu".data(using: String.Encoding.ascii)!, withName: "email")
+//                multipartFormData.append("aks2@stevens.edu".data(using: String.Encoding.ascii)!, withName: "first_name")
+//                multipartFormData.append("aks2@stevens.edu".data(using: String.Encoding.ascii)!, withName: "last_name")
+//                multipartFormData.append("aks2@stevens.edu".data(using: String.Encoding.ascii)!, withName: "password")
+//                multipartFormData.append(UIImageJPEGRepresentation(#imageLiteral(resourceName: "UserProfilePicture"), 1.0)!, withName: "profile_pic")
+//        },
+//            to: String.init(format: "%@%@", webServiceObj.url_local, webServiceObj.method_registration),
+//            encodingCompletion: { encodingResult in
+//                switch encodingResult {
+//                case .success(let upload, _, _):
+//                    upload.responseJSON { response in
+//                        debugPrint(response)
+//                    }
+//                case .failure(let encodingError):
+//                    print(encodingError)
+//                }
+//        }
+//        )
+
         self.present(alert, animated: true, completion: nil)
         
     }
@@ -148,8 +236,23 @@ class ViewController: UIViewController, UITextFieldDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        webServiceObj.webServiceDelegate = self
+        
         textFieldUsername.delegate = self;
         textFieldPassword.delegate = self;
+
+        if global.isKeyPresentInUserDefaults(key: "username"){
+            textFieldUsername.text = global.userdefaults.value(forKey: "username") as! String?
+        }
+        if global.isKeyPresentInUserDefaults(key: "password"){
+            textFieldPassword.text = webServiceObj.stringDecrypt(string: (global.userdefaults.value(forKey: "password") as! String?)!)
+        }
+        if global.isKeyPresentInUserDefaults(key: "isLogin"){
+            global.addIndicatorView()
+            webServiceObj.loginUser(email: textFieldUsername.text!, password: textFieldPassword.text!, token: "")
+        }
+        
+        global.appDelegate.vcObj = self
         
         lblPasswordBottom.backgroundColor = global.redColor;
         lblUsernameBottom.backgroundColor = UIColor.black;

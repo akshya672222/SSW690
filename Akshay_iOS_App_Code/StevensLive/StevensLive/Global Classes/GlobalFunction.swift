@@ -7,14 +7,21 @@
 //
 
 import Foundation
+import SystemConfiguration
 import QuartzCore
 import UIKit
 import SVProgressHUD
 
-
 class GlobalFunction{
     
     let redColor = UIColor.init(red: 157.0/255.0, green: 21.0/255.0, blue: 53.0/255.0, alpha: 1.0)
+    let userdefaults = UserDefaults.standard
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
+    
+    func isKeyPresentInUserDefaults(key: String) -> Bool {
+        return userdefaults.object(forKey: key) != nil
+    }
     
     enum UIUserInterfaceIdiom : Int{
         case Unspecified
@@ -35,6 +42,37 @@ class GlobalFunction{
         static let IS_IPHONE_6          = UIDevice.current.userInterfaceIdiom == .phone && ScreenSize.SCREEN_MAX_LENGTH == 667.0
         static let IS_IPHONE_6P         = UIDevice.current.userInterfaceIdiom == .phone && ScreenSize.SCREEN_MAX_LENGTH == 736.0
         static let IS_IPAD              = UIDevice.current.userInterfaceIdiom == .pad && ScreenSize.SCREEN_MAX_LENGTH == 1024.0
+    }
+    
+    func convertToDictionary(text: String) -> NSDictionary? {
+        if let data = text.data(using: .utf8) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return NSDictionary()
+    }
+    
+    func isInternetAvailable() -> Bool{
+        var zeroAddress = sockaddr_in()
+        zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
+        zeroAddress.sin_family = sa_family_t(AF_INET)
+        
+        let defaultRouteReachability = withUnsafePointer(to: &zeroAddress) {
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {zeroSockAddress in
+                SCNetworkReachabilityCreateWithAddress(nil, zeroSockAddress)
+            }
+        }
+        
+        var flags = SCNetworkReachabilityFlags()
+        if !SCNetworkReachabilityGetFlags(defaultRouteReachability!, &flags) {
+            return false
+        }
+        let isReachable = (flags.rawValue & UInt32(kSCNetworkFlagsReachable)) != 0
+        let needsConnection = (flags.rawValue & UInt32(kSCNetworkFlagsConnectionRequired)) != 0
+        return (isReachable && !needsConnection)
     }
     
     func isIphone4OrLess() -> Bool {
