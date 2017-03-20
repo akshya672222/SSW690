@@ -25,9 +25,12 @@ def fitch_event(Event):
             d=(Date.get_text()).encode('ascii', 'ignore')
             temp += [d]
             
+            
             # get title
             title= ev.find("h3",attrs={"class" : "events_list_wide_item_title"})
             ti=(title.get_text()).encode('ascii', 'ignore')
+            ID= (title.get('id').encode('ascii', 'ignore')).replace("event-title-","")
+            temp+=[ID]
             temp+=[ti]
 
             # get location
@@ -86,7 +89,8 @@ def fitch_event(Event):
 
 def fill_db(Event_Data,cur,con):
     for r in Event_Data:
-        cur.execute("INSERT INTO Events (Ename, Elocation, Etime, Edate,Edescription,Eimage) VALUES (?,?,?,?,?,?)",(r[1],r[2],r[3],r[0],r[4],r[5]))
+
+        cur.execute("INSERT OR IGNORE INTO Events (Eid, Ename, Elocation, Etime, Edate,Edescription,Edlink) VALUES (?,?,?,?,?,?,?)",(r[1],r[2],r[3],r[4],r[0],r[5],r[6]))
         con.commit()
     print "MAHA"
 
