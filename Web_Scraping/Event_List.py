@@ -130,23 +130,17 @@ def fitch_event_category(E,C):
 
 
 def fill_db_Event(Event_Data,cur,con):
-    if len(Event_Data)<=0:
-        pass
-    else:
-        for r in Event_Data:
-            cur.execute("INSERT OR IGNORE INTO  (Eid, Ename, Elocation, Etime, Edate,Edescription,Edlink) VALUES (?,?,?,?,?,?,?)",(r[1],r[2],r[3],r[4],r[0],r[5],r[6]))
-            con.commit()
-        fill_db_timeStamp("Events",cur,con)
+    for r in Event_Data:
+        cur.execute("INSERT OR IGNORE INTO  (Eid, Ename, Elocation, Etime, Edate,Edescription,Edlink) VALUES (?,?,?,?,?,?,?)",(r[1],r[2],r[3],r[4],r[0],r[5],r[6]))
+        con.commit()
+    fill_db_timeStamp("Events",cur,con)
     
 def fill_db_Category(Category_Data,cur,con):
-    if len(Category_Data)<=0:
-        pass
-    else:
-        for r in Category_Data:
-            cur.execute("INSERT OR IGNORE INTO Category (Cid, Cname) VALUES (?,?)",(r[0],r[1]))
-            con.commit()
-        fill_db_timeStamp("Category",cur,con)
-        print "MAHA"
+    for r in Category_Data:
+        cur.execute("INSERT OR IGNORE INTO Category (Cid, Cname) VALUES (?,?)",(r[0],r[1]))
+        con.commit()
+    fill_db_timeStamp("Category",cur,con)
+    print "MAHA"
     
 
 
