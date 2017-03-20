@@ -46,10 +46,17 @@ def fitch_event(Event):
 
             # get description
             
-            """
-            links=event.find("a",attrs={"class" :"events_list_wide_item_button events_list_wide_item_button_detail"})
-            l= links.get('href')
+            description = ev.find("div",attrs={"class" : "events_list_wide_item_description"})
+            desc=((description.get_text()).encode('ascii', 'ignore')).replace("\n","")
+            temp+=[desc]
+            
+            links=ev.find("a",attrs={"class" :"events_list_wide_item_button events_list_wide_item_button_detail"})
+            l= links.get('href').encode('ascii', 'ignore')
             desclink= D_L + l
+            temp+=[desclink]
+            
+            #fitching the full description of each event
+            """
             link= urllib2.Request(desclink,headers={'User-Agent': 'Safari/537.36'})
             h = urllib2.urlopen(link).read().decode('utf8')
             s = BeautifulSoup(h, 'html.parser')
@@ -79,7 +86,7 @@ def fitch_event(Event):
 
 def fill_db(Event_Data,cur,con):
     for r in Event_Data:
-        cur.execute("INSERT INTO Events (Ename, Elocation, Etime, Edate) VALUES (?,?,?,?)",(r[1],r[2],r[3],r[0]))
+        cur.execute("INSERT INTO Events (Ename, Elocation, Etime, Edate,Edescription,Eimage) VALUES (?,?,?,?,?,?)",(r[1],r[2],r[3],r[0],r[4],r[5]))
         con.commit()
     print "MAHA"
 
@@ -104,7 +111,7 @@ E =soup.find_all("div",attrs={"class" : "events_list_wide_day"})
 Event_Data= fitch_event(E)
 print len(Event_Data)
     
-# fill_db(Event_Data,cur,con)
+fill_db(Event_Data,cur,con)
     
     
 
