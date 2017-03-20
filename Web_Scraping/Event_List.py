@@ -4,6 +4,17 @@ import  re
 import sys
 from bs4 import BeautifulSoup
 import sqlite3
+from selenium import webdriver
+import time
+
+def open_page(url):
+    browser = webdriver.Chrome('/Users/rafifarab/Downloads/chromedriver')
+    browser.get(url)
+    html = browser.page_source
+    soup = BeautifulSoup ( html , 'html.parser' )
+    event = soup.find("div", attrs={"class":"field field-name-body field-type-text-with-summary field-label-hidden"})
+    browser.quit()
+    return event
 
 def fitch_event(Event):
     Event_List = []
@@ -25,7 +36,7 @@ def fitch_event(Event):
             d=(Date.get_text()).encode('ascii', 'ignore')
             temp += [d]
             
-            # get title
+            # get title,id
             title= ev.find("h3",attrs={"class" : "events_list_wide_item_title"})
             ti=(title.get_text()).encode('ascii', 'ignore')
             ID= (title.get('id').encode('ascii', 'ignore')).replace("event-title-","")
@@ -47,18 +58,20 @@ def fitch_event(Event):
             temp+=[t]
 
             # get description
-            
+            """
             description = ev.find("div",attrs={"class" : "events_list_wide_item_description"})
             desc=((description.get_text()).encode('ascii', 'ignore')).replace("\n","")
             temp+=[desc]
-            
+            """
+            """
             links=ev.find("a",attrs={"class" :"events_list_wide_item_button events_list_wide_item_button_detail"})
             l= links.get('href').encode('ascii', 'ignore')
             desclink= D_L + l
-            temp+=[desclink]
+            desc= open_page(desclink)
+            temp+=[desc]
             
             #fitching the full description of each event
-            """
+            
             link= urllib2.Request(desclink,headers={'User-Agent': 'Safari/537.36'})
             h = urllib2.urlopen(link).read().decode('utf8')
             s = BeautifulSoup(h, 'html.parser')
@@ -70,7 +83,7 @@ def fitch_event(Event):
             """
             # get category
             category = ev.find("span",attrs={"class" : "events_list_wide_item_cat"})
-            c=(category.get_text()).encode('ascii', 'ignore')
+            c=((category.get_text()).encode('ascii', 'ignore')).replace(", ",",")
             if len(c)>0:
                 temp+=[c]
             else:
@@ -83,15 +96,71 @@ def fitch_event(Event):
         print r
     return Event_List
    
- 
+def fitch_category(C):
+    te=[]
+    categ=[]
+    for u in C:
+        for option in u.find_all('option'):
+            if len(te)>0:
+                categ+=[te]
+            catId= (option.get('value').encode('ascii', 'ignore')).replace("/events/?category=","")
+            catName= (option.get_text()).encode('ascii', 'ignore')
+            te=[catId] + [catName]
+    
+    categ+=[te]
+    return categ 
+
+def fitch_event_category(E,C):
+    Event_Category=[]
+    temp=[]
+    
+    for r in E: 
+        for i in r[5].split(','):     
+            for c in C:
+                
+                if len(temp) >0:
+                   Event_Category+= [temp]
+                   temp=[]  
+                    
+                if i == c[1]:
+                    temp= [r[1]]+ [c[0]]
+                
+    Event_Category+= [temp]
+    return Event_Category
 
 
-def fill_db(Event_Data,cur,con):
-    for r in Event_Data:
-        cur.execute("INSERT OR IGNORE INTO Events (Eid, Ename, Elocation, Etime, Edate,Edescription,Edlink) VALUES (?,?,?,?,?,?,?)",(r[1],r[2],r[3],r[4],r[0],r[5],r[6]))
-        con.commit()
+def fill_db_Event(Event_Data,cur,con):
+    if len(Event_Data)<=0:
+        pass
+    else:
+        for r in Event_Data:
+            cur.execute("INSERT OR IGNORE INTO  (Eid, Ename, Elocation, Etime, Edate,Edescription,Edlink) VALUES (?,?,?,?,?,?,?)",(r[1],r[2],r[3],r[4],r[0],r[5],r[6]))
+            con.commit()
+        fill_db_timeStamp("Events",cur,con)
+    
+def fill_db_Category(Category_Data,cur,con):
+    if len(Category_Data)<=0:
+        pass
+    else:
+        for r in Category_Data:
+            cur.execute("INSERT OR IGNORE INTO Category (Cid, Cname) VALUES (?,?)",(r[0],r[1]))
+            con.commit()
+        fill_db_timeStamp("Category",cur,con)
+        print "MAHA"
+    
+
+
+def fill_db_Event_Category(Event_Category_Data,cur,con):
+    for r in Event_Category_Data:
+        cur.execute("INSERT OR IGNORE INTO EventCategory (Eid,Cid) VALUES (?,?)",(r[0],r[1]))
+        con.commit() 
+    fill_db_timeStamp("EventCategory",cur,con)
     print "MAHA"
+    
 
+def fill_db_timeStamp(TableName,cur,con):
+        cur.execute("INSERT OR IGNORE INTO timestamp (TableName, TimeStamp) VALUES (?,?)",(TableName,int(time.time())))
+        con.commit()  
 
 try:
     con = sqlite3.connect("Stevens.db")
@@ -109,11 +178,22 @@ try:
     soup = BeautifulSoup(html, 'html.parser')
     
     E =soup.find_all("div",attrs={"class" : "events_list_wide_day"})
+    C= soup.find_all("select",attrs={"id" : "filter_category"})
+    
+    
+    
+        
     
     Event_Data= fitch_event(E)
+    Category_Data= fitch_category(C)
+    Event_Category_Data= fitch_event_category(Event_Data,Category_Data)
     print len(Event_Data)
+    print Category_Data
     
-except:
-    print "Website is invalid!"    
+except Exception as e:
+    print e   
+
     
-fill_db(Event_Data,cur,con)
+#fill_db_Event(Event_Data,cur,con)
+#fill_db_Category(Category_Data,cur,con)
+#fill_db_Event_Category(Event_Category_Data,cur,con)
