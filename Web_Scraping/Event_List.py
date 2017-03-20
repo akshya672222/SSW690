@@ -16,6 +16,10 @@ def fitch_event(Event):
         event =e.find_all("article",attrs={"class" : "clearfix events_list_wide_item"})
         
         for ev in event:
+            if len(temp) > 0:
+                Event_List+=[temp]
+                temp=[]
+                
             # get date
             Date = e.find("h2",attrs={"class" : "events_list_day_date"})
             d=(Date.get_text()).encode('ascii', 'ignore')
@@ -63,12 +67,15 @@ def fitch_event(Event):
             else:
                 temp+=["NA"]
         
-            Event_List=Event_List+[temp]
+        Event_List+=[temp]
 
-    
+  
     for r in Event_List:
         print r
     return Event_List
+   
+ 
+
 
 def fill_db(Event_Data,cur,con):
     for r in Event_Data:
@@ -93,10 +100,11 @@ soup = BeautifulSoup(html, 'html.parser')
 
 E =soup.find_all("div",attrs={"class" : "events_list_wide_day"})
 
+
 Event_Data= fitch_event(E)
 print len(Event_Data)
     
-fill_db(Event_Data,cur,con)
+# fill_db(Event_Data,cur,con)
     
     
 
