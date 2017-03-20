@@ -103,17 +103,17 @@ except Exception as e: #sqlite3.OperationalError
 inputURL = "https://www.stevens.edu/events"
 
 url= urllib2.Request(inputURL,headers={'User-Agent': 'Safari/537.36'})
+try:
 
-html = urllib2.urlopen(url).read().decode('utf8')
-soup = BeautifulSoup(html, 'html.parser')
-
-E =soup.find_all("div",attrs={"class" : "events_list_wide_day"})
-
-
-Event_Data= fitch_event(E)
-print len(Event_Data)
+    html = urllib2.urlopen(url).read().decode('utf8')
+    soup = BeautifulSoup(html, 'html.parser')
+    
+    E =soup.find_all("div",attrs={"class" : "events_list_wide_day"})
+    
+    Event_Data= fitch_event(E)
+    print len(Event_Data)
+    
+except:
+    print "Website is invalid!"    
     
 fill_db(Event_Data,cur,con)
-    
-    
-
