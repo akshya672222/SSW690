@@ -8,13 +8,27 @@ from selenium import webdriver
 import time
 
 def open_page(url):
-    browser = webdriver.Chrome('/Users/rafifarab/Downloads/chromedriver')
-    browser.get(url)
-    html = browser.page_source
-    soup = BeautifulSoup ( html , 'html.parser' )
-    event = soup.find("div", attrs={"class":"field field-name-body field-type-text-with-summary field-label-hidden"})
-    browser.quit()
-    return event
+    try:
+        browser = webdriver.PhantomJS('/Users/Mahalidrisi/Desktop/SSW690/Web_Scraping/phantomjs-2.1.1-macosx/bin/phantomjs')
+        print url
+        print "AKSHAY"
+        browser.get(url)
+        print"Sonali"
+        html = browser.page_source
+        print"CCC"
+        soup = BeautifulSoup ( html , 'html.parser' )
+        print"DDD"
+        event = soup.find("div", attrs={"class":"field field-name-body field-type-text-with-summary field-label-hidden"})
+        print"MMM"
+        browser.quit()
+        print"eee"
+        return event
+    except Exception as e:
+        print "MAHAAAA"
+        return  e 
+        
+        
+
 
 def fitch_event(Event):
     Event_List = []
@@ -63,7 +77,7 @@ def fitch_event(Event):
             desc=((description.get_text()).encode('ascii', 'ignore')).replace("\n","")
             temp+=[desc]
             """
-            """
+            
             links=ev.find("a",attrs={"class" :"events_list_wide_item_button events_list_wide_item_button_detail"})
             l= links.get('href').encode('ascii', 'ignore')
             desclink= D_L + l
@@ -71,7 +85,7 @@ def fitch_event(Event):
             temp+=[desc]
             
             #fitching the full description of each event
-            
+            """
             link= urllib2.Request(desclink,headers={'User-Agent': 'Safari/537.36'})
             h = urllib2.urlopen(link).read().decode('utf8')
             s = BeautifulSoup(h, 'html.parser')
