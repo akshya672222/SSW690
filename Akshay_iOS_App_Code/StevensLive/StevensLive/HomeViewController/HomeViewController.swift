@@ -127,6 +127,7 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
                                        preferredStyle: .alert)
         let alertYesAction=UIAlertAction(title:"YES", style: UIAlertActionStyle.destructive,handler: { action in
             self.global.userdefaults.set(false, forKey: "isLogin")
+            self.global.userdefaults.synchronize()
             self.performSegue(withIdentifier: "logoutseague", sender: self)
         })
         let alertNoAction=UIAlertAction(title:"NO", style: UIAlertActionStyle.default,handler: { action in

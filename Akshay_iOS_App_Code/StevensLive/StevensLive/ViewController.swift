@@ -51,18 +51,19 @@ class ViewController: UIViewController, UITextFieldDelegate, WebServicesDelegate
     func handleDone(alertView: UIAlertAction){
         var message = String();
         if global.isValidEmail(testStr: self.tField.text! as String) {
-            message = "LINK HAS BEEN SENT TO YOUR EMAIL ADDRESS.";
+            global.addIndicatorView()
+            webServiceObj.forgot_password(email: self.tField.text! as String)
         }else{
             message = "PLEASE ENTER A VALID STUDENT EMAIL ADDRESS.";
+            let alertV = UIAlertController(title: "RESET PASSWORD",
+                                           message: message,
+                                           preferredStyle: .alert)
+            let alertOKAction=UIAlertAction(title:"OK", style: UIAlertActionStyle.default,handler: { action in
+                print("OK Button Pressed")
+            })
+            alertV.addAction(alertOKAction)
+            self.present(alertV, animated: true, completion:nil)
         }
-        let alertV = UIAlertController(title: "RESET PASSWORD",
-                                   message: message,
-                                   preferredStyle: .alert)
-        let alertOKAction=UIAlertAction(title:"OK", style: UIAlertActionStyle.default,handler: { action in
-            print("OK Button Pressed")
-        })
-        alertV.addAction(alertOKAction)
-        self.present(alertV, animated: true, completion:nil)
         self.tField.text = "";
     }
     
@@ -88,6 +89,17 @@ class ViewController: UIViewController, UITextFieldDelegate, WebServicesDelegate
             webServiceObj.getEventsList(pageNo: 0, lastmodifytime: "")
         }else if method == webServiceObj.method_event_list{
             self.performSegue(withIdentifier: "home", sender: btnLogin)
+        }else if method == webServiceObj.method_forgot_password{
+            global.removeIndicatorView()
+            let message = "LINK HAS BEEN SENT TO YOUR EMAIL ADDRESS.";
+            let alertV = UIAlertController(title: "RESET PASSWORD",
+                                           message: message,
+                                           preferredStyle: .alert)
+            let alertOKAction=UIAlertAction(title:"OK", style: UIAlertActionStyle.default,handler: { action in
+                print("OK Button Pressed")
+            })
+            alertV.addAction(alertOKAction)
+            self.present(alertV, animated: true, completion:nil)
         }
     }
     

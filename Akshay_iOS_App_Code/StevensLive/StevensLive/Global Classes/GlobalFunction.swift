@@ -137,7 +137,7 @@ class GlobalFunction{
     }
     
     func removeIndicatorView() {
-        SVProgressHUD.dismiss(withDelay: 1.0);
+        SVProgressHUD.dismiss(withDelay: 0.0);
         UIApplication.shared.endIgnoringInteractionEvents();
     }
     

@@ -49,6 +49,7 @@ class WebServices {
     let method_registration = "register"
     let method_event_list = "event_list"
     let method_add_reminder = "add_reminder"
+    let method_forgot_password = "forgot_password"
 
     func stringEncrypt(string : String) -> String {
         var encryptString = String()
@@ -83,10 +84,14 @@ class WebServices {
                 
                 if !(response.result.error != nil){
                     let dict = response.result.value as! NSDictionary
-                    if dict.value(forKey: "status code") as! NSInteger == 200{
-                        self.webServiceDelegate?.didFinishSuccessfully(method: self.method_login as String, dictionary: dict)
+                    if dict.value(forKey: "status code") != nil{
+                        if dict.value(forKey: "status code") as! NSInteger == 200{
+                            self.webServiceDelegate?.didFinishSuccessfully(method: self.method_login as String, dictionary: dict)
+                        }else{
+                            self.webServiceDelegate?.didFinishWithError(method: self.method_login, errorMessage: dict.value(forKey: "message") as! String)
+                        }
                     }else{
-                        self.webServiceDelegate?.didFinishWithError(method: self.method_login, errorMessage: dict.value(forKey: "message") as! String)
+                        self.webServiceDelegate?.didFinishWithError(method: self.method_login, errorMessage: "Request Error")
                     }
                 }else{
                     self.webServiceDelegate?.didFinishWithError(method: self.method_login, errorMessage: (response.result.error?.localizedDescription)!)
@@ -164,10 +169,14 @@ class WebServices {
                     print(response!)
                     let reply = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
                     let dict = self.globalFunction.convertToDictionary(text: reply as! String)! as NSDictionary
-                    if dict["status code"] as! Int == 200{
-                        self.webServiceDelegate?.didFinishSuccessfully(method: self.method_registration as String, dictionary: dict)
+                    if dict.value(forKey: "status code") != nil{
+                        if dict["status code"] as! Int == 200{
+                            self.webServiceDelegate?.didFinishSuccessfully(method: self.method_registration as String, dictionary: dict)
+                        }else{
+                            self.webServiceDelegate?.didFinishWithError(method: self.method_registration, errorMessage: dict["message"] as! String)
+                        }
                     }else{
-                        self.webServiceDelegate?.didFinishWithError(method: self.method_registration, errorMessage: dict["message"] as! String)
+                        self.webServiceDelegate?.didFinishWithError(method: self.method_registration, errorMessage:"Request Error")
                     }
                 }
                 
@@ -192,10 +201,14 @@ class WebServices {
                 
                 if !(response.result.error != nil){
                     let dict = response.result.value as! NSDictionary
-                    if dict.value(forKey: "status code") as! NSInteger == 200{
-                        self.webServiceDelegate?.didFinishSuccessfully(method: self.method_event_list as String, dictionary: dict)
+                    if dict.value(forKey: "status code") != nil{
+                        if dict.value(forKey: "status code") as! NSInteger == 200{
+                            self.webServiceDelegate?.didFinishSuccessfully(method: self.method_event_list as String, dictionary: dict)
+                        }else{
+                            self.webServiceDelegate?.didFinishWithError(method: self.method_event_list, errorMessage: dict.value(forKey: "message") as! String)
+                        }
                     }else{
-                        self.webServiceDelegate?.didFinishWithError(method: self.method_event_list, errorMessage: dict.value(forKey: "message") as! String)
+                        self.webServiceDelegate?.didFinishWithError(method: self.method_event_list, errorMessage: "Request Error")
                     }
                 }else{
                     self.webServiceDelegate?.didFinishWithError(method: self.method_event_list, errorMessage: (response.result.error?.localizedDescription)!)
@@ -203,6 +216,38 @@ class WebServices {
                 
         }
 
+    }
+    
+    func forgot_password(email: String) {
+        
+        let parameters: Parameters = [
+            "email" : email
+        ]
+        
+        let headers: HTTPHeaders = [
+            "Accept": "application/json"
+        ]
+        
+        Alamofire.request(String.init(format: "%@%@", url_local, method_forgot_password), method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .responseJSON { response in
+                
+                if !(response.result.error != nil){
+                    let dict = response.result.value as! NSDictionary
+                    if dict.value(forKey: "status code") != nil{
+                        if dict.value(forKey: "status code") as! NSInteger == 200{
+                            self.webServiceDelegate?.didFinishSuccessfully(method: self.method_forgot_password as String, dictionary: dict)
+                        }else{
+                            self.webServiceDelegate?.didFinishWithError(method: self.method_forgot_password, errorMessage: dict.value(forKey: "message") as! String)
+                        }
+                    }else{
+                        self.webServiceDelegate?.didFinishWithError(method: self.method_forgot_password, errorMessage: "Request Error")
+                    }
+                }else{
+                    self.webServiceDelegate?.didFinishWithError(method: self.method_forgot_password, errorMessage: (response.result.error?.localizedDescription)!)
+                }
+                
+        }
+        
     }
     
 }
