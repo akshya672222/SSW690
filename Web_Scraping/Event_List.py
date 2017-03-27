@@ -10,26 +10,15 @@ import time
 def open_page(url):
     try:
         browser = webdriver.PhantomJS('/Users/Mahalidrisi/Desktop/SSW690/Web_Scraping/phantomjs-2.1.1-macosx/bin/phantomjs')
-        print url
-        print "AKSHAY"
         browser.get(url)
-        print"Sonali"
         html = browser.page_source
-        print"CCC"
         soup = BeautifulSoup ( html , 'html.parser' )
-        print"DDD"
         event = soup.find("div", attrs={"class":"field field-name-body field-type-text-with-summary field-label-hidden"})
-        print"MMM"
         browser.quit()
-        print"eee"
         return event
     except Exception as e:
-        print "MAHAAAA"
         return  e 
         
-        
-
-
 def fitch_event(Event):
     Event_List = []
     D_L= "https://www.stevens.edu"
@@ -145,7 +134,7 @@ def fitch_event_category(E,C):
 
 def fill_db_Event(Event_Data,cur,con):
     for r in Event_Data:
-        cur.execute("INSERT OR IGNORE INTO  (Eid, Ename, Elocation, Etime, Edate,Edescription,Edlink) VALUES (?,?,?,?,?,?,?)",(r[1],r[2],r[3],r[4],r[0],r[5],r[6]))
+        cur.execute("INSERT OR IGNORE INTO  (Eid, Ename, Elocation, Etime, Edate,Edescription) VALUES (?,?,?,?,?,?)",(r[1],r[2],r[3],r[4],r[0],r[5]))
         con.commit()
     fill_db_timeStamp("Events",cur,con)
     
@@ -202,6 +191,6 @@ except Exception as e:
     print e   
 
     
-#fill_db_Event(Event_Data,cur,con)
-#fill_db_Category(Category_Data,cur,con)
-#fill_db_Event_Category(Event_Category_Data,cur,con)
+fill_db_Event(Event_Data,cur,con)
+fill_db_Category(Category_Data,cur,con)
+fill_db_Event_Category(Event_Category_Data,cur,con)
