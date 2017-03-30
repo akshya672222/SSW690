@@ -185,39 +185,7 @@ class WebServices {
         }
         
     }
-    
-    func getEventsList(pageNo: Int, lastmodifytime: String) {
-        let parameters: Parameters = [
-            "pageNo":pageNo,
-            "lastmodifytime":lastmodifytime,
-        ]
         
-        let headers: HTTPHeaders = [
-            "Accept": "application/json"
-        ]
-        
-        Alamofire.request(String.init(format: "%@%@", url_local, method_event_list), method: .get, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
-            .responseJSON { response in
-                
-                if !(response.result.error != nil){
-                    let dict = response.result.value as! NSDictionary
-                    if dict.value(forKey: "status code") != nil{
-                        if dict.value(forKey: "status code") as! NSInteger == 200{
-                            self.webServiceDelegate?.didFinishSuccessfully(method: self.method_event_list as String, dictionary: dict)
-                        }else{
-                            self.webServiceDelegate?.didFinishWithError(method: self.method_event_list, errorMessage: dict.value(forKey: "message") as! String)
-                        }
-                    }else{
-                        self.webServiceDelegate?.didFinishWithError(method: self.method_event_list, errorMessage: "Request Error")
-                    }
-                }else{
-                    self.webServiceDelegate?.didFinishWithError(method: self.method_event_list, errorMessage: (response.result.error?.localizedDescription)!)
-                }
-                
-        }
-
-    }
-    
     func forgot_password(email: String) {
         
         let parameters: Parameters = [
@@ -248,6 +216,26 @@ class WebServices {
                 
         }
         
+    }
+    
+    func get_events(page_no: Int) {
+        Alamofire.request(String.init(format: "%@%@/%d", url_local, method_event_list,page_no), method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil)
+            .responseJSON { response in
+                if !(response.result.error != nil){
+                    let dict = response.result.value as! NSDictionary
+                    if dict.value(forKey: "status code") != nil{
+                        if dict.value(forKey: "status code") as! NSInteger == 200{
+                            self.webServiceDelegate?.didFinishSuccessfully(method: self.method_event_list as String, dictionary: dict)
+                        }else{
+                            self.webServiceDelegate?.didFinishWithError(method: self.method_event_list, errorMessage: dict.value(forKey: "message") as! String)
+                        }
+                    }else{
+                        self.webServiceDelegate?.didFinishWithError(method: self.method_event_list, errorMessage: "Request Error")
+                    }
+                }else{
+                    self.webServiceDelegate?.didFinishWithError(method: self.method_event_list, errorMessage: (response.result.error?.localizedDescription)!)
+                }
+        }
     }
     
 }

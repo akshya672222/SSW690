@@ -79,6 +79,9 @@ class ViewController: UIViewController, UITextFieldDelegate, WebServicesDelegate
         alertV.addAction(alertOKAction)
         self.present(alertV, animated: true, completion: nil)
     }
+
+    var cat_data_Array = Array<Any>()
+    var user_data_obj = UserData()
     
     func didFinishSuccessfully(method: String, dictionary: NSDictionary) {
         print(dictionary)
@@ -86,8 +89,17 @@ class ViewController: UIViewController, UITextFieldDelegate, WebServicesDelegate
             global.userdefaults.set(true, forKey: "isLogin")
             global.userdefaults.set(webServiceObj.stringEncrypt(string: textFieldPassword.text!), forKey: "password")
             global.userdefaults.set(textFieldUsername.text!, forKey: "username")
-            webServiceObj.getEventsList(pageNo: 0, lastmodifytime: "")
-        }else if method == webServiceObj.method_event_list{
+            let categoryArray = dictionary["categories"] as! NSArray
+            let userDict = dictionary["user"] as! NSDictionary
+            
+            for categories in categoryArray{
+                let cat_dict = categories as! NSDictionary
+                let category_data_obj = CategoryData.init(Category_id: cat_dict["category_id"] as? Int, Category_name: cat_dict["category_name"] as? String)
+                cat_data_Array.append(category_data_obj)
+            }
+            
+            user_data_obj = UserData.init(email: userDict["email"] as? String, profile_picpath: userDict["profile_picpath"] as? String, user_fname: userDict["user_fname"] as? String, user_id: userDict["user_id"] as? Int, user_lname: userDict["user_lname"] as? String)
+            
             self.performSegue(withIdentifier: "home", sender: btnLogin)
         }else if method == webServiceObj.method_forgot_password{
             global.removeIndicatorView()
@@ -151,7 +163,15 @@ class ViewController: UIViewController, UITextFieldDelegate, WebServicesDelegate
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
+        if segue.identifier == "home"{
+            
+            let destinationVC:HomeViewController = segue.destination as! HomeViewController
+            
+            //set properties on the destination view controller
+            destinationVC.category_data_array = cat_data_Array
+            destinationVC.user_data = user_data_obj
+            
+        }
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
@@ -164,35 +184,6 @@ class ViewController: UIViewController, UITextFieldDelegate, WebServicesDelegate
     
     @IBAction func forgotMeClicked(_ sender: Any) {
     
-//        webServiceObj.registerUser(email: "a", first_name: "a", last_name: "a", password: "a", image_name: "profile_pic", image: #imageLiteral(resourceName: "UserProfilePicture"))
-        
-//        let imageData = UIImagePNGRepresentation(#imageLiteral(resourceName: "UserProfilePicture"))!
-//        
-//        Alamofire.upload(imageData, to: "http://127.0.0.1:5000/register").responseJSON { response in
-//            debugPrint(response)
-//        }
-
-//        Alamofire.upload(
-//            multipartFormData: { multipartFormData in
-//                multipartFormData.append("aks2@stevens.edu".data(using: String.Encoding.ascii)!, withName: "email")
-//                multipartFormData.append("aks2@stevens.edu".data(using: String.Encoding.ascii)!, withName: "first_name")
-//                multipartFormData.append("aks2@stevens.edu".data(using: String.Encoding.ascii)!, withName: "last_name")
-//                multipartFormData.append("aks2@stevens.edu".data(using: String.Encoding.ascii)!, withName: "password")
-//                multipartFormData.append(UIImageJPEGRepresentation(#imageLiteral(resourceName: "UserProfilePicture"), 1.0)!, withName: "profile_pic")
-//        },
-//            to: String.init(format: "%@%@", webServiceObj.url_local, webServiceObj.method_registration),
-//            encodingCompletion: { encodingResult in
-//                switch encodingResult {
-//                case .success(let upload, _, _):
-//                    upload.responseJSON { response in
-//                        debugPrint(response)
-//                    }
-//                case .failure(let encodingError):
-//                    print(encodingError)
-//                }
-//        }
-//        )
-
         self.present(alert, animated: true, completion: nil)
         
     }

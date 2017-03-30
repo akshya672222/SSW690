@@ -300,6 +300,9 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
         self.present(alertV, animated: true, completion: nil)
     }
     
+    var cat_data_Array = Array<Any>()
+    var user_data_obj = UserData()
+    
     func didFinishSuccessfully(method: String, dictionary: NSDictionary) {
         print(dictionary)
         if method == webServiceObj.method_registration {
@@ -315,6 +318,16 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
             self.present(alertV, animated: true, completion: nil)
         }else if method == webServiceObj.method_login{
             global.userdefaults.set(true, forKey: "isLogin")
+            let categoryArray = dictionary["categories"] as! NSArray
+            let userDict = dictionary["user"] as! NSDictionary
+            
+            for categories in categoryArray{
+                let cat_dict = categories as! NSDictionary
+                let category_data_obj = CategoryData.init(Category_id: cat_dict["category_id"] as? Int, Category_name: cat_dict["category_name"] as? String)
+                cat_data_Array.append(category_data_obj)
+            }
+            
+            user_data_obj = UserData.init(email: userDict["email"] as? String, profile_picpath: userDict["profile_picpath"] as? String, user_fname: userDict["user_fname"] as? String, user_id: userDict["user_id"] as? Int, user_lname: userDict["user_lname"] as? String)
             self.performSegue(withIdentifier: "registerSuccess", sender: btnRegister)
         }
     }
@@ -415,12 +428,9 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
             let destinationVC:HomeViewController = segue.destination as! HomeViewController
             
             //set properties on the destination view controller
-            if self.textFieldFullName.text != "" {
-                destinationVC.fullNameString = self.textFieldFullName.text! as String;
-            }
-            if imageViewUserProfilePicture.image != #imageLiteral(resourceName: "UserProfilePicture") {
-                destinationVC.imagePP = imageViewUserProfilePicture.image!;
-            }
+            destinationVC.category_data_array = cat_data_Array
+            destinationVC.user_data = user_data_obj
+
         }
     }
     

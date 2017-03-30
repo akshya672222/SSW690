@@ -23,6 +23,9 @@
 		BA544DFA1E415508001034BD /* StevensLiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA544DF91E415508001034BD /* StevensLiveTests.swift */; };
 		BA544E051E415508001034BD /* StevensLiveUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA544E041E415508001034BD /* StevensLiveUITests.swift */; };
 		BAB31DAD1E4A62D000F13812 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB31DAC1E4A62D000F13812 /* CategoryTableViewCell.swift */; };
+		BAB3E8431E8C4B7B00292005 /* EventData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB3E8421E8C4B7B00292005 /* EventData.swift */; };
+		BAF223861E8C53700005A849 /* CategoryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF223851E8C53700005A849 /* CategoryData.swift */; };
+		BAF223881E8C56A70005A849 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF223871E8C56A70005A849 /* UserData.swift */; };
 		BAFE70591E640AA000BE5292 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFE70581E640AA000BE5292 /* RegistrationViewController.swift */; };
 		BAFE705B1E64330B00BE5292 /* SideBarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFE705A1E64330B00BE5292 /* SideBarTableViewCell.swift */; };
 		BAFFF4711E67B3AD00AC424C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFFF4701E67B3AD00AC424C /* SettingsViewController.swift */; };
@@ -75,6 +78,9 @@
 		BA544E041E415508001034BD /* StevensLiveUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StevensLiveUITests.swift; sourceTree = "<group>"; };
 		BA544E061E415508001034BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BAB31DAC1E4A62D000F13812 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
+		BAB3E8421E8C4B7B00292005 /* EventData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventData.swift; sourceTree = "<group>"; };
+		BAF223851E8C53700005A849 /* CategoryData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryData.swift; sourceTree = "<group>"; };
+		BAF223871E8C56A70005A849 /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		BAFE70581E640AA000BE5292 /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		BAFE705A1E64330B00BE5292 /* SideBarTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideBarTableViewCell.swift; sourceTree = "<group>"; };
 		BAFFF4701E67B3AD00AC424C /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -174,6 +180,7 @@
 		BA544DE31E415508001034BD /* StevensLive */ = {
 			isa = PBXGroup;
 			children = (
+				BAB3E8411E8C4B6100292005 /* DataModels */,
 				BA0140991E6CCC1C001157F2 /* MyReminderViewController */,
 				BAFFF4751E6A1BD400AC424C /* EventDescriptionViewController */,
 				BAFFF4721E6A0D8C00AC424C /* MySubscriptionViewController */,
@@ -207,6 +214,16 @@
 				BA544E061E415508001034BD /* Info.plist */,
 			);
 			path = StevensLiveUITests;
+			sourceTree = "<group>";
+		};
+		BAB3E8411E8C4B6100292005 /* DataModels */ = {
+			isa = PBXGroup;
+			children = (
+				BAB3E8421E8C4B7B00292005 /* EventData.swift */,
+				BAF223851E8C53700005A849 /* CategoryData.swift */,
+				BAF223871E8C56A70005A849 /* UserData.swift */,
+			);
+			path = DataModels;
 			sourceTree = "<group>";
 		};
 		BAFE70571E640A8B00BE5292 /* RegistrationViewController */ = {
@@ -540,8 +557,10 @@
 			files = (
 				BA544DE71E415508001034BD /* ViewController.swift in Sources */,
 				BAFFF4741E6A0DAC00AC424C /* MySubscriptionViewController.swift in Sources */,
+				BAB3E8431E8C4B7B00292005 /* EventData.swift in Sources */,
 				BA3B977E1E426B1000ABCE57 /* GlobalFunction.swift in Sources */,
 				BAFFF4771E6A1BE800AC424C /* EventDescriptionViewController.swift in Sources */,
+				BAF223861E8C53700005A849 /* CategoryData.swift in Sources */,
 				BA01409B1E6CCC2F001157F2 /* MyReminderViewController.swift in Sources */,
 				BA268A601E77AC5300F160A9 /* WebServices.swift in Sources */,
 				BAFE705B1E64330B00BE5292 /* SideBarTableViewCell.swift in Sources */,
@@ -549,6 +568,7 @@
 				BA3B97831E4464F700ABCE57 /* EventTableViewCell.swift in Sources */,
 				BAFE70591E640AA000BE5292 /* RegistrationViewController.swift in Sources */,
 				BA3B97811E4435D500ABCE57 /* HomeViewController.swift in Sources */,
+				BAF223881E8C56A70005A849 /* UserData.swift in Sources */,
 				BAB31DAD1E4A62D000F13812 /* CategoryTableViewCell.swift in Sources */,
 				BAFFF4711E67B3AD00AC424C /* SettingsViewController.swift in Sources */,
 			);
