@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="36dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="27dp"
+            android:id="@+id/categoryName"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textColorLink="@android:color/background_dark"
+            android:fontFamily="serif"
+            android:textSize="18sp"
+            android:textColor="@android:color/background_dark"
+            android:paddingTop="2dip"
+            android:paddingBottom="3dip"
+            android:typeface="serif" />
+
+        <Switch
+            android:layout_width="70dp"
+            android:layout_height="10dp"
+            android:layout_marginRight="21dp"
+            android:layout_marginEnd="21dp"
+            android:id="@+id/subscriptionSwitch"
+            android:layout_alignBaseline="@+id/categoryName"
+            android:layout_alignBottom="@+id/categoryName"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:switchTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionMode.Subtitle"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColorLink="@android:color/holo_green_light"
+            android:checked="false"
+            android:fontFamily="sans-serif"
+            android:thumb="@drawable/customswitchselector"
+            android:track="@drawable/custom_track"/>
+    </RelativeLayout>
+</LinearLayout>

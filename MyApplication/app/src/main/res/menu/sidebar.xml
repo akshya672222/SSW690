@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_myFeed"
+            android:title="My Feed"
+            android:visible="true" />
+        <item android:id="@+id/nav_allEvents"
+            android:title="All Events"
+            android:visible="true" />
+
+        <item android:id="@+id/nav_Subscriptions"
+            android:title="Subscriptions"
+            android:visible="true" />
+
+        <item android:id="@+id/nav_Reminders"
+            android:title="Reminders"/>
+
+        <item android:id="@+id/nav_Logout"
+            android:title="Logout"/>
+</group>
+    <group android:checkableBehavior="single">
+
+    <item android:title="Categories">
+        <menu>
+    <item android:id="@+id/nav_Grad_Admission"
+        android:title="Graduate - Admissions"/>
+
+    <item android:id="@+id/nav_Alumni"
+    android:title="Alumni"/>
+
+    <item android:id="@+id/nav_Athletics"
+    android:title="Athletics"/>
+    <item android:id="@+id/nav_Career_Development"
+        android:title="Career Development"/>
+
+    <item android:id="@+id/nav_Conferences"
+        android:title="Conferences"/>
+
+    <item android:id="@+id/nav_Health"
+        android:title="Health"/>
+    <item android:id="@+id/nav_Open_to_public"
+        android:title="Open to public"/>
+
+    <item android:id="@+id/nav_Performing_and_Visual_Arts"
+        android:title="Performing and Visual Arts"/>
+
+    <item android:id="@+id/nav_Student_Life"
+        android:title="Student_Life"/>
+    <item android:id="@+id/nav_Talks_and_Lectures"
+        android:title="Talks and Lectures"/>
+
+    <item android:id="@+id/nav_University_Wide"
+        android:title="University Wide"/>
+
+
+        </menu>
+    </item>
+    </group>
+    </menu>
