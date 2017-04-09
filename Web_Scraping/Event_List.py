@@ -9,7 +9,7 @@ import time
 
 def open_page(url):
     try:
-        browser = webdriver.PhantomJS('/Users/Mahalidrisi/Desktop/SSW690/Web_Scraping/phantomjs-2.1.1-macosx/bin/phantomjs')
+        browser = webdriver.PhantomJS('/Users/rafifarab/Desktop/SSW690/Web_Scraping/phantomjs-2.1.1-macosx/bin/phantomjs')
         browser.get(url)
         html = browser.page_source
         soup = BeautifulSoup ( html , 'html.parser' )
@@ -136,6 +136,12 @@ def fill_db_Event(Event_Data,cur,con):
         con.commit()
     fill_db_timeStamp("Events",cur,con)
     
+def delete_db_Event(cur,con):
+    cur.execute("DELETE FROM Events WHERE (Edate < date('now','-1 day'))")
+    #cur.execute("DELETE FROM Events WHERE (Edate < GETDATE()-1)")
+    con.commit()
+    fill_db_timeStamp("Events",cur,con)
+    
 def fill_db_Category(Category_Data,cur,con):
     for r in Category_Data:
         cur.execute("INSERT OR IGNORE INTO Category (Cid, Cname) VALUES (?,?)",(r[0],r[1]))
@@ -189,3 +195,4 @@ except Exception as e:
 #fill_db_Event(Event_Data,cur,con)
 #fill_db_Category(Category_Data,cur,con)
 #fill_db_Event_Category(Event_Category_Data,cur,con)
+#delete_db_Event(cur,con)
