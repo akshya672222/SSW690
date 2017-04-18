@@ -43,12 +43,12 @@ class WebServices {
     let key = "n3x3K25Cn4BiNEhg3Ahn14CQG0ez8uju"
     let iv = "3C4549AA4F6B2A6F"
     let url_local = "http://127.0.0.1:5000/"
-    let url_web = "http://ec2-35-163-201-39.us-west-2.compute.amazonaws.com/"
+    let url_web = "http://ec2-54-71-196-243.us-west-2.compute.amazonaws.com/"
     
     let method_login = "login"
     let method_registration = "register"
     let method_event_list = "event_list"
-    let method_add_reminder = "add_reminder"
+    let method_add_reminder = "add_remove_subscription"
     let method_forgot_password = "forgot_password"
 
     func stringEncrypt(string : String) -> String {
@@ -71,7 +71,7 @@ class WebServices {
         
         let parameters: Parameters = [
             "email":email,
-            "password":password,
+            "password":stringEncrypt(string: password),
             "token":token
         ]
         
@@ -104,7 +104,7 @@ class WebServices {
         
         var postString = String()
         
-        postString = String.init(format: "[{\"email\":\"%@\",\"first_name\":\"%@\",\"last_name\":\"%@\",\"password\":\"%@\"}]", email, first_name, last_name, password)
+        postString = String.init(format: "[{\"email\":\"%@\",\"first_name\":\"%@\",\"last_name\":\"%@\",\"password\":\"%@\"}]", email, first_name, last_name, stringEncrypt(string: password))
         
         let mutableData = NSMutableData()
         let stringBoundary = "*****"
@@ -138,17 +138,12 @@ class WebServices {
             mutableData.append(String.init(format: "--%@\r\n", stringBoundary).data(using: String.Encoding.ascii)!)
 
         }
-        
-        print()
-        
+                
         let url = String.init(format: "%@%@", url_local, method_registration)
-//        let url2 = "http://127.0.0.1/test/test.php"
-
         
         let request = NSMutableURLRequest()
         request.setValue("1.0", forHTTPHeaderField: "API_Version")
         request.setValue("ios", forHTTPHeaderField: "Devicetype")
-//        request.setValue("cipher", forHTTPHeaderField: "Cipher")
         request.url = NSURL.init(string: url) as URL?
         request.httpMethod = "POST"
         request.httpBody = mutableData as Data
@@ -168,7 +163,7 @@ class WebServices {
                 }else{
                     print(response!)
                     let reply = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-                    let dict = self.globalFunction.convertToDictionary(text: reply as! String)! as NSDictionary
+                    let dict = self.globalFunction.convertToDictionary(text: reply! as String)! as NSDictionary
                     if dict.value(forKey: "status code") != nil{
                         if dict["status code"] as! Int == 200{
                             self.webServiceDelegate?.didFinishSuccessfully(method: self.method_registration as String, dictionary: dict)
@@ -236,6 +231,39 @@ class WebServices {
                     self.webServiceDelegate?.didFinishWithError(method: self.method_event_list, errorMessage: (response.result.error?.localizedDescription)!)
                 }
         }
+    }
+    
+    func add_remove_subscriptions(subscription_arr: Array<Any>, user_id: Int){
+        
+        let parameters: Parameters = [
+            "userId" : user_id,
+            "subscription" : subscription_arr
+        ]
+        
+        let headers: HTTPHeaders = [
+            "Accept": "application/json"
+        ]
+        
+        Alamofire.request(String.init(format: "%@%@", url_local, method_add_reminder), method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .responseJSON { response in
+                
+                if !(response.result.error != nil){
+                    let dict = response.result.value as! NSDictionary
+                    if dict.value(forKey: "status code") != nil{
+                        if dict.value(forKey: "status code") as! NSInteger == 200{
+                            self.webServiceDelegate?.didFinishSuccessfully(method: self.method_add_reminder as String, dictionary: dict)
+                        }else{
+                            self.webServiceDelegate?.didFinishWithError(method: self.method_add_reminder, errorMessage: dict.value(forKey: "message") as! String)
+                        }
+                    }else{
+                        self.webServiceDelegate?.didFinishWithError(method: self.method_add_reminder, errorMessage: "Request Error")
+                    }
+                }else{
+                    self.webServiceDelegate?.didFinishWithError(method: self.method_add_reminder, errorMessage: (response.result.error?.localizedDescription)!)
+                }
+                
+        }
+        
     }
     
 }
