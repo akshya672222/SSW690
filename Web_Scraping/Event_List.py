@@ -135,36 +135,31 @@ def fill_db_Event(Event_Data,cur,con):
         cur.execute("INSERT OR IGNORE INTO Events (Eid, Ename, Elocation, Etime, Edate, Edescription, Edlink) VALUES (?,?,?,?,?,?,?)",(r[1],r[2],r[3],r[4],r[0],r[5],r[6]))
         con.commit()
     fill_db_timeStamp("Events",cur,con)
-    
+   
 def delete_db_Event(cur,con):
-    cur.execute("DELETE FROM Events WHERE (Edate < date('now','-1 day'))")
-    #cur.execute("DELETE FROM Events WHERE (Edate < GETDATE()-1)")
+    cur.execute("DELETE FROM Events WHERE Edate < Date('now, -1 day')")
     con.commit()
     fill_db_timeStamp("Events",cur,con)
+
     
 def fill_db_Category(Category_Data,cur,con):
     for r in Category_Data:
         cur.execute("INSERT OR IGNORE INTO Category (Cid, Cname) VALUES (?,?)",(r[0],r[1]))
         con.commit()
     fill_db_timeStamp("Category",cur,con)
-    print "MAHA"
     
-
-
 def fill_db_Event_Category(Event_Category_Data,cur,con):
     for r in Event_Category_Data:
         cur.execute("INSERT OR IGNORE INTO EventCategory (Eid,Cid) VALUES (?,?)",(r[0],r[1]))
         con.commit() 
     fill_db_timeStamp("EventCategory",cur,con)
-    print "MAHA"
     
-
 def fill_db_timeStamp(TableName,cur,con):
         cur.execute("INSERT OR IGNORE INTO timestamp (TableName, TimeStamp) VALUES (?,?)",(TableName,int(time.time())))
         con.commit()  
 
 try:
-    con = sqlite3.connect("Stevens.db")
+    con = sqlite3.connect("/Users/rafifarab/Desktop/SSW690/Web_Scraping/Stevens.db")
     cur=con.cursor()
     
 except Exception as e: #sqlite3.OperationalError
@@ -195,4 +190,4 @@ except Exception as e:
 #fill_db_Event(Event_Data,cur,con)
 #fill_db_Category(Category_Data,cur,con)
 #fill_db_Event_Category(Event_Category_Data,cur,con)
-#delete_db_Event(cur,con)
+delete_db_Event(cur,con)
