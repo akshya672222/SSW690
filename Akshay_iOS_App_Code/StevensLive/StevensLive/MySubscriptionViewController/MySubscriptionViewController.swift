@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import QuartzCore
 
-class MySubscriptionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
+class MySubscriptionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, WebServicesDelegate{
     
     
     @IBAction func backClicked(_ sender: Any) {
@@ -21,10 +21,32 @@ class MySubscriptionViewController: UIViewController, UITableViewDelegate, UITab
     
     @IBOutlet weak var tblViewCategories: UITableView!
     
-    let categoryList = ["Admissions - Graduate", "Admissions - Undergraduate", "Alumni", "Athletics", "Career Development", "Conferences", "Health & Wellness", "Open to the Public", "Performing & Visual Arts", "Student Life", "Talks & Lectures", "University-wide"] as NSArray;
+    @IBAction func save_Subscription(_ sender: Any) {
+        global.addIndicatorView()
+        web_service_obj.add_remove_subscriptions(subscription_arr: arrayCategorySelected as! Array<Any>, user_id: (global.appDelegate.vcObj as! ViewController).user_data_obj.user_id!)
+    }
+    
+    func didFinishWithError(method: String, errorMessage: String) {
+        global.removeIndicatorView()
+        let alertV = UIAlertController(title: "ERROR", message: errorMessage, preferredStyle: .alert)
+        let alertOKAction=UIAlertAction(title:"OK", style: UIAlertActionStyle.default,handler: { action in
+            print("OK Button Pressed")
+        })
+        alertV.addAction(alertOKAction)
+        self.present(alertV, animated: true, completion: nil)
+    }
+    
+    func didFinishSuccessfully(method: String, dictionary: NSDictionary) {
+        print(dictionary)
+        (global.appDelegate.vcObj as! ViewController).user_data_obj.subscription_arr.removeAll()
+        (global.appDelegate.vcObj as! ViewController).user_data_obj.subscription_arr = arrayCategorySelected as! Array<Int>
+        global.removeIndicatorView()
+    }
+
     
     let global = GlobalFunction();
     var arrayCategorySelected = NSMutableArray();
+    let web_service_obj = WebServices()
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell: CategoryTableViewCell = tableView.cellForRow(at: indexPath) as! CategoryTableViewCell;
@@ -40,16 +62,19 @@ class MySubscriptionViewController: UIViewController, UITableViewDelegate, UITab
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
-        return categoryList.count;
+        return (global.appDelegate.vcObj as! ViewController).cat_data_Array.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "category", for: indexPath) as! CategoryTableViewCell;
         
-        cell.lblCategoryName.text = (categoryList.object(at: indexPath.row) as! NSString) as String;
+        let cat_array = (global.appDelegate.vcObj as! ViewController).cat_data_Array as NSArray
+        
+        let cat_data = cat_array.object(at: indexPath.row) as! CategoryData
+        
+        cell.lblCategoryName.text = cat_data.category_name
         
         let font = cell.lblCategoryName.font;
-        
         
         if global.isIphone4OrLess() {
             cell.lblCategoryName.font = font?.withSize(14);
@@ -61,7 +86,7 @@ class MySubscriptionViewController: UIViewController, UITableViewDelegate, UITab
             cell.lblCategoryName.font = font?.withSize(22);
         }
         
-        cell.imageCategorySelected.tag = indexPath.row;
+        cell.imageCategorySelected.tag = cat_data.category_id!;
         
         if arrayCategorySelected.contains(cell.imageCategorySelected.tag){
             cell.imageCategorySelected.isHidden = false;
@@ -74,6 +99,15 @@ class MySubscriptionViewController: UIViewController, UITableViewDelegate, UITab
     
     override func viewDidLoad() {
         super.viewDidLoad();
+        
+        web_service_obj.webServiceDelegate = self
+        
+        arrayCategorySelected.addObjects(from: (global.appDelegate.vcObj as! ViewController).user_data_obj.subscription_arr)
+        
+        tblViewCategories.layoutIfNeeded()
+        tblViewCategories.reloadData()
+        tblViewCategories.layoutIfNeeded()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {

@@ -92,13 +92,15 @@ class ViewController: UIViewController, UITextFieldDelegate, WebServicesDelegate
             let categoryArray = dictionary["categories"] as! NSArray
             let userDict = dictionary["user"] as! NSDictionary
             
+            let subscription_array = dictionary["Subscription"] as! Array<Int>
+            
             for categories in categoryArray{
                 let cat_dict = categories as! NSDictionary
                 let category_data_obj = CategoryData.init(Category_id: cat_dict["category_id"] as? Int, Category_name: cat_dict["category_name"] as? String)
                 cat_data_Array.append(category_data_obj)
             }
             
-            user_data_obj = UserData.init(email: userDict["email"] as? String, profile_picpath: userDict["profile_picpath"] as? String, user_fname: userDict["user_fname"] as? String, user_id: userDict["user_id"] as? Int, user_lname: userDict["user_lname"] as? String)
+            user_data_obj = UserData.init(email: userDict["email"] as? String, profile_picpath: userDict["profile_picpath"] as? String, user_fname: userDict["user_fname"] as? String, user_id: userDict["user_id"] as? Int, user_lname: userDict["user_lname"] as? String, subscription_arr: subscription_array)
             
             self.performSegue(withIdentifier: "home", sender: btnLogin)
         }else if method == webServiceObj.method_forgot_password{
@@ -238,6 +240,9 @@ class ViewController: UIViewController, UITextFieldDelegate, WebServicesDelegate
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        print(webServiceObj.stringEncrypt(string: "123456"))
+//        print(webServiceObj.stringDecrypt(string: "WEVbi2pUEErQ+Wp2jJG49Q=="))
         
         webServiceObj.webServiceDelegate = self
         

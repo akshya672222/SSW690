@@ -190,4 +190,4 @@ except Exception as e:
 #fill_db_Event(Event_Data,cur,con)
 #fill_db_Category(Category_Data,cur,con)
 #fill_db_Event_Category(Event_Category_Data,cur,con)
-delete_db_Event(cur,con)
+#delete_db_Event(cur,con)

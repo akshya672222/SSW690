@@ -300,8 +300,9 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
         self.present(alertV, animated: true, completion: nil)
     }
     
-    var cat_data_Array = Array<Any>()
-    var user_data_obj = UserData()
+    
+//    var cat_data_Array = Array<Any>()
+//    var user_data_obj = UserData()
     
     func didFinishSuccessfully(method: String, dictionary: NSDictionary) {
         print(dictionary)
@@ -320,14 +321,20 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
             global.userdefaults.set(true, forKey: "isLogin")
             let categoryArray = dictionary["categories"] as! NSArray
             let userDict = dictionary["user"] as! NSDictionary
-            
+            let subscription_array = dictionary["Subscription"] as! Array<Int>
+
+            (global.appDelegate.vcObj as! ViewController).cat_data_Array = Array<Any>()
+            (global.appDelegate.vcObj as! ViewController).user_data_obj = UserData()
+
             for categories in categoryArray{
                 let cat_dict = categories as! NSDictionary
                 let category_data_obj = CategoryData.init(Category_id: cat_dict["category_id"] as? Int, Category_name: cat_dict["category_name"] as? String)
-                cat_data_Array.append(category_data_obj)
+                (global.appDelegate.vcObj as! ViewController).cat_data_Array.append(category_data_obj)
             }
             
-            user_data_obj = UserData.init(email: userDict["email"] as? String, profile_picpath: userDict["profile_picpath"] as? String, user_fname: userDict["user_fname"] as? String, user_id: userDict["user_id"] as? Int, user_lname: userDict["user_lname"] as? String)
+            (global.appDelegate.vcObj as! ViewController).user_data_obj = UserData.init(email: userDict["email"] as? String, profile_picpath: userDict["profile_picpath"] as? String, user_fname: userDict["user_fname"] as? String, user_id: userDict["user_id"] as? Int, user_lname: userDict["user_lname"] as? String, subscription_arr: subscription_array)
+            
+//            user_data_obj = UserData.init(email: userDict["email"] as? String, profile_picpath: userDict["profile_picpath"] as? String, user_fname: userDict["user_fname"] as? String, user_id: userDict["user_id"] as? Int, user_lname: userDict["user_lname"] as? String)
             self.performSegue(withIdentifier: "registerSuccess", sender: btnRegister)
         }
     }
@@ -428,8 +435,8 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
             let destinationVC:HomeViewController = segue.destination as! HomeViewController
             
             //set properties on the destination view controller
-            destinationVC.category_data_array = cat_data_Array
-            destinationVC.user_data = user_data_obj
+            destinationVC.category_data_array = (global.appDelegate.vcObj as! ViewController).cat_data_Array
+            destinationVC.user_data = (global.appDelegate.vcObj as! ViewController).user_data_obj
 
         }
     }
