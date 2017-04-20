@@ -43,7 +43,7 @@ class WebServices {
     let key = "n3x3K25Cn4BiNEhg3Ahn14CQG0ez8uju"
     let iv = "3C4549AA4F6B2A6F"
     let url_local = "http://127.0.0.1:5000/"
-    let url_web = "http://ec2-54-71-196-243.us-west-2.compute.amazonaws.com/"
+    let url_web = "http://ec2-52-41-249-144.us-west-2.compute.amazonaws.com/"
     
     let method_login = "login"
     let method_registration = "register"
@@ -79,7 +79,7 @@ class WebServices {
             "Accept": "application/json"
         ]
         
-        Alamofire.request(String.init(format: "%@%@", url_local, method_login), method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+        Alamofire.request(String.init(format: "%@%@", url_web, method_login), method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
             .responseJSON { response in
                 
                 if !(response.result.error != nil){
@@ -139,7 +139,7 @@ class WebServices {
 
         }
                 
-        let url = String.init(format: "%@%@", url_local, method_registration)
+        let url = String.init(format: "%@%@", url_web, method_registration)
         
         let request = NSMutableURLRequest()
         request.setValue("1.0", forHTTPHeaderField: "API_Version")
@@ -191,7 +191,7 @@ class WebServices {
             "Accept": "application/json"
         ]
         
-        Alamofire.request(String.init(format: "%@%@", url_local, method_forgot_password), method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+        Alamofire.request(String.init(format: "%@%@", url_web, method_forgot_password), method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
             .responseJSON { response in
                 
                 if !(response.result.error != nil){
@@ -214,7 +214,7 @@ class WebServices {
     }
     
     func get_events(page_no: Int) {
-        Alamofire.request(String.init(format: "%@%@/%d", url_local, method_event_list,page_no), method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil)
+        Alamofire.request(String.init(format: "%@%@/%d", url_web, method_event_list,page_no), method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil)
             .responseJSON { response in
                 if !(response.result.error != nil){
                     let dict = response.result.value as! NSDictionary
@@ -244,7 +244,7 @@ class WebServices {
             "Accept": "application/json"
         ]
         
-        Alamofire.request(String.init(format: "%@%@", url_local, method_add_reminder), method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+        Alamofire.request(String.init(format: "%@%@", url_web, method_add_reminder), method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
             .responseJSON { response in
                 
                 if !(response.result.error != nil){
