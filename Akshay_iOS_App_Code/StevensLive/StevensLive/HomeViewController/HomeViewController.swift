@@ -78,7 +78,6 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
     var selectedSearchString = ""
     
     let sideMenuItems = ["Home", "My Subscriptions", "My Reminders", "Settings"] as NSArray
-    var arrayReminders = NSMutableArray()
 
     var previousIndexPath = IndexPath()
     var previousIndexPath_sideMenu = IndexPath.init(row: 0, section: 0)
@@ -88,8 +87,6 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
 // MARK: - data objects
     var page_number = 1
     var event_data_array = NSMutableArray()
-    var user_data = UserData()
-    var category_data_array = Array<Any>()
     var isWebServiceCalled = false
     
     @IBOutlet weak var constraintSearchBarLeading: NSLayoutConstraint!
@@ -105,19 +102,26 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
     var btnPrev = UIButton()
     var btnNext = UIButton()
     var btnDone = UIButton()
+    
+    var tblCell_reminder = EventTableViewCell()
+    
 
     @IBAction func addReminderClicked(_ sender: Any) {
         
-        let indexPth = IndexPath.init(row: (sender as AnyObject).tag, section: 0)
-        let tblCell: EventTableViewCell = tblViewEvent.cellForRow(at: indexPth) as! EventTableViewCell
+        global.addIndicatorView()
         
-        if tblCell.btnAddReminder.isSelected{
-            tblCell.btnAddReminder.isSelected = false
-            arrayReminders.remove(tblCell.btnAddReminder.tag)
+        let indexPth = IndexPath.init(row: (sender as AnyObject).tag, section: 0)
+        tblCell_reminder = tblViewEvent.cellForRow(at: indexPth) as! EventTableViewCell
+        
+        var event_data_obj = EventData()
+        
+        if isFilterEnabled{
+            event_data_obj = arrayFilteredData[tblCell_reminder.btnAddReminder.tag] as! EventData
         }else{
-            tblCell.btnAddReminder.isSelected = true
-            arrayReminders.add(tblCell.btnAddReminder.tag)
+            event_data_obj = event_data_array[tblCell_reminder.btnAddReminder.tag] as! EventData
         }
+
+        webServiceObj.add_remove_reminder(user_id: (global.appDelegate.vcObj as! ViewController).user_data_obj.user_id!, event_id:event_data_obj.Event_id!)
         
     }
     
@@ -454,7 +458,7 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
 
             return event_data_array.count
         }else if tableView == tblCategories{
-            return category_data_array.count
+            return (global.appDelegate.vcObj as! ViewController).cat_data_Array.count
         }else if tableView == tableViewSideBar{
             return sideMenuItems.count
         }
@@ -564,7 +568,7 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
             cell.lblEventCategory.text = event_data_obj.Event_location
             cell.btnAddReminder.tag = indexPath.row
             
-            if arrayReminders.contains(cell.btnAddReminder.tag) {
+            if (global.appDelegate.vcObj as! ViewController).user_data_obj.reminder_arr.contains(event_data_obj.Event_id!) {
                 cell.btnAddReminder.isSelected = true
             }else{
                 cell.btnAddReminder.isSelected = false
@@ -599,7 +603,7 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
          
             let cell = tableView.dequeueReusableCell(withIdentifier: "category", for: indexPath) as! CategoryTableViewCell
             
-            let cat_data_obj = category_data_array[indexPath.row] as! CategoryData
+            let cat_data_obj = (global.appDelegate.vcObj as! ViewController).cat_data_Array[indexPath.row] as! CategoryData
             
             cell.lblCategoryName.text = cat_data_obj.category_name
             cell.lblCategoryName.tag = cat_data_obj.category_id!
@@ -664,7 +668,8 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
         textFieldSearch.attributedPlaceholder = NSAttributedString(string: "Type to search...",
                                                                attributes: [NSForegroundColorAttributeName: UIColor.white])
         
-        lblUserName.text = "\(user_data.user_fname!) \(user_data.user_lname!)"
+        
+        lblUserName.text = "\((global.appDelegate.vcObj as! ViewController).user_data_obj.user_fname!) \((global.appDelegate.vcObj as! ViewController).user_data_obj.user_lname!)"
         
         tblViewEvent.addSubview(self.refreshControl)
         
@@ -694,6 +699,7 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
         
         previousIndexPath_sideMenu.row = 0
         tableViewSideBar.reloadData()
+        tblViewEvent.reloadData()
         
     }
     
@@ -723,29 +729,63 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
     }
     
     func didFinishSuccessfully(method: String, dictionary: NSDictionary) {
-
-        if isRefreshStarted {
-            event_data_array.removeAllObjects()
-        }
         
-        let event_array = dictionary.object(forKey: "events_list") as! Array<Any>
-        
-        for events in event_array{
-            let event_dict = events as! NSDictionary
-            let event_id = (event_dict["EventId"] as! NSString).integerValue
-            let event_data_obj = EventData.init(Event_id: event_id, Event_category: event_dict["Event_category"] as? Array, Event_date: event_dict["Event_date"] as? String, Event_time: event_dict["Event_time"] as? String, Event_name: event_dict["Event_name"] as? String, Event_location: event_dict["Event_location"] as? String, Event_description: event_dict["Event_description"] as? String)
+        if method == webServiceObj.method_add_remove_reminder {
             
-            if !event_data_array.contains(event_data_obj) {
-                event_data_array.add(event_data_obj)
+            var event_data_obj = EventData()
+            
+            if isFilterEnabled{
+                event_data_obj = arrayFilteredData[tblCell_reminder.btnAddReminder.tag] as! EventData
+            }else{
+                event_data_obj = event_data_array[tblCell_reminder.btnAddReminder.tag] as! EventData
             }
+
+            
+            var message = String()
+            global.removeIndicatorView()
+
+            if tblCell_reminder.btnAddReminder.isSelected{
+                tblCell_reminder.btnAddReminder.isSelected = false
+                (global.appDelegate.vcObj as! ViewController).user_data_obj.reminder_arr.remove(at: (global.appDelegate.vcObj as! ViewController).user_data_obj.reminder_arr.index(of: event_data_obj.Event_id!)!)
+                message = "Reminder removed successfully."
+            }else{
+                tblCell_reminder.btnAddReminder.isSelected = true
+                (global.appDelegate.vcObj as! ViewController).user_data_obj.reminder_arr.append(event_data_obj.Event_id!)
+                message = "Reminder added successfully."
+            }
+            global.removeIndicatorView()
+
+            let alertV = UIAlertController(title: "STEVENS LIVE", message: message, preferredStyle: .alert)
+            let alertOKAction=UIAlertAction(title:"OK", style: UIAlertActionStyle.default,handler: { action in
+                print("OK Button Pressed")
+            })
+            alertV.addAction(alertOKAction)
+            self.present(alertV, animated: true, completion: nil)
+
+        }else{
+            if isRefreshStarted {
+                event_data_array.removeAllObjects()
+            }
+            
+            let event_array = dictionary.object(forKey: "events_list") as! Array<Any>
+            
+            for events in event_array{
+                let event_dict = events as! NSDictionary
+                let event_id = (event_dict["EventId"] as! NSString).integerValue
+                let event_data_obj = EventData.init(Event_id: event_id, Event_category: event_dict["Event_category"] as? Array, Event_date: event_dict["Event_date"] as? String, Event_time: event_dict["Event_time"] as? String, Event_name: event_dict["Event_name"] as? String, Event_location: event_dict["Event_location"] as? String, Event_description: event_dict["Event_description"] as? String)
+                
+                if !event_data_array.contains(event_data_obj) {
+                    event_data_array.add(event_data_obj)
+                }
+            }
+            
+            let pg_no = dictionary.value(forKey: "page_number") as! Int
+            if pg_no != page_number {
+                page_number = pg_no
+            }
+            
+            filterEvents(categoryId: selectedCategoryId, string: selectedSearchString)
         }
-        
-        let pg_no = dictionary.value(forKey: "page_number") as! Int
-        if pg_no != page_number {
-            page_number = pg_no
-        }
-        
-        filterEvents(categoryId: selectedCategoryId, string: selectedSearchString)
         
         global.removeIndicatorView()
     }

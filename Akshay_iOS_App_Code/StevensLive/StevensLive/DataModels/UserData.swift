@@ -16,9 +16,10 @@ class UserData{
     var user_id: Int?
     var user_lname: String?
     var subscription_arr = Array<Int>()
+    var reminder_arr = Array<Int>()
     
 
-    init(email: String?, profile_picpath: String?, user_fname: String?, user_id: Int?, user_lname: String?, subscription_arr: Array<Int>){
+    init(email: String?, profile_picpath: String?, user_fname: String?, user_id: Int?, user_lname: String?, subscription_arr: Array<Int>, reminder_arr: Array<Int>){
         
         self.email = email
         self.profile_picpath = profile_picpath
@@ -26,6 +27,8 @@ class UserData{
         self.user_id = user_id
         self.user_lname = user_lname
         self.subscription_arr = subscription_arr
+        self.reminder_arr = reminder_arr
+        
     }
     
     init() {
@@ -35,6 +38,7 @@ class UserData{
         self.user_id = -1
         self.user_lname = ""
         self.subscription_arr = []
+        self.reminder_arr = []
     }
 
 }

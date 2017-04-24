@@ -48,9 +48,10 @@ class WebServices {
     let method_login = "login"
     let method_registration = "register"
     let method_event_list = "event_list"
-    let method_add_reminder = "add_remove_subscription"
+    let method_add_subscription = "add_remove_subscription"
     let method_forgot_password = "forgot_password"
-
+    let method_add_remove_reminder = "add_remove_reminder"
+    
     func stringEncrypt(string : String) -> String {
         var encryptString = String()
         
@@ -121,9 +122,9 @@ class WebServices {
         mutableData.append(String.init(format: "--%@\r\n", stringBoundary).data(using: String.Encoding.ascii)!)
         
         mutableData.append(String.init(format: "--%@\r\n", stringBoundary).data(using: String.Encoding.ascii)!)
-
+        
         if image_name != "" {
-         
+            
             mutableData.append(String.init(format: "Content-Disposition: form-data; name=\"pic_path\"; filename=\"%@.jpeg\"\r\n", image_name!).data(using: String.Encoding.ascii)!)
             
             mutableData.append("Content-Type: application/octet-stream\r\n\r\n".data(using: String.Encoding.ascii)!)
@@ -136,9 +137,9 @@ class WebServices {
             mutableData.append(String.init(format: "\r\n--%@--\r\n", stringBoundary).data(using: String.Encoding.ascii)!)
             
             mutableData.append(String.init(format: "--%@\r\n", stringBoundary).data(using: String.Encoding.ascii)!)
-
+            
         }
-                
+        
         let url = String.init(format: "%@%@", url_web, method_registration)
         
         let request = NSMutableURLRequest()
@@ -151,7 +152,7 @@ class WebServices {
         let postLength = mutableData.length
         request.setValue(String.init(format: "%d", postLength), forHTTPHeaderField: "Content-Length")
         
-    
+        
         if globalFunction.isInternetAvailable() {
             
             let session = URLSession.shared
@@ -175,12 +176,12 @@ class WebServices {
                     }
                 }
                 
-            }.resume()
+                }.resume()
             
         }
         
     }
-        
+    
     func forgot_password(email: String) {
         
         let parameters: Parameters = [
@@ -244,24 +245,46 @@ class WebServices {
             "Accept": "application/json"
         ]
         
-        Alamofire.request(String.init(format: "%@%@", url_web, method_add_reminder), method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+        Alamofire.request(String.init(format: "%@%@", url_web, method_add_subscription), method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
             .responseJSON { response in
                 
                 if !(response.result.error != nil){
                     let dict = response.result.value as! NSDictionary
                     if dict.value(forKey: "status code") != nil{
                         if dict.value(forKey: "status code") as! NSInteger == 200{
-                            self.webServiceDelegate?.didFinishSuccessfully(method: self.method_add_reminder as String, dictionary: dict)
+                            self.webServiceDelegate?.didFinishSuccessfully(method: self.method_add_subscription as String, dictionary: dict)
                         }else{
-                            self.webServiceDelegate?.didFinishWithError(method: self.method_add_reminder, errorMessage: dict.value(forKey: "message") as! String)
+                            self.webServiceDelegate?.didFinishWithError(method: self.method_add_subscription, errorMessage: dict.value(forKey: "message") as! String)
                         }
                     }else{
-                        self.webServiceDelegate?.didFinishWithError(method: self.method_add_reminder, errorMessage: "Request Error")
+                        self.webServiceDelegate?.didFinishWithError(method: self.method_add_subscription, errorMessage: "Request Error")
                     }
                 }else{
-                    self.webServiceDelegate?.didFinishWithError(method: self.method_add_reminder, errorMessage: (response.result.error?.localizedDescription)!)
+                    self.webServiceDelegate?.didFinishWithError(method: self.method_add_subscription, errorMessage: (response.result.error?.localizedDescription)!)
                 }
                 
+        }
+        
+    }
+    
+    func add_remove_reminder(user_id: Int, event_id: Int) {
+        
+        Alamofire.request(String.init(format: "%@%@/%d/%d", url_web, method_add_remove_reminder,user_id,event_id), method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil)
+            .responseJSON { response in
+                if !(response.result.error != nil){
+                    let dict = response.result.value as! NSDictionary
+                    if dict.value(forKey: "status code") != nil{
+                        if dict.value(forKey: "status code") as! NSInteger == 200{
+                            self.webServiceDelegate?.didFinishSuccessfully(method: self.method_add_remove_reminder as String, dictionary: dict)
+                        }else{
+                            self.webServiceDelegate?.didFinishWithError(method: self.method_add_remove_reminder, errorMessage: dict.value(forKey: "message") as! String)
+                        }
+                    }else{
+                        self.webServiceDelegate?.didFinishWithError(method: self.method_add_remove_reminder, errorMessage: "Request Error")
+                    }
+                }else{
+                    self.webServiceDelegate?.didFinishWithError(method: self.method_add_remove_reminder, errorMessage: (response.result.error?.localizedDescription)!)
+                }
         }
         
     }

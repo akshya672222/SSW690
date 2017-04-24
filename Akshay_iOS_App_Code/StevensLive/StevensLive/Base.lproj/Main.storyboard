@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16F43c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F60a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -72,7 +72,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hoh-t4-PhG">
-                                <rect key="frame" x="30" y="567" width="107.5" height="30"/>
+                                <rect key="frame" x="30" y="567" width="108" height="30"/>
                                 <color key="backgroundColor" red="0.69411764705882351" green="0.0" blue="0.20392156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Hzd-xF-ajP"/>
@@ -87,7 +87,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Ju-lY-o8s">
-                                <rect key="frame" x="237.5" y="567" width="107.5" height="30"/>
+                                <rect key="frame" x="238" y="567" width="107" height="30"/>
                                 <color key="backgroundColor" red="0.69411764710000001" green="0.0" blue="0.20392156859999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="PingFangSC-Ultralight" family="PingFang SC" pointSize="16"/>
                                 <state key="normal" title="SIGN UP">
@@ -99,7 +99,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2sA-lS-d9J">
-                                <rect key="frame" x="112.5" y="617" width="150" height="30"/>
+                                <rect key="frame" x="113" y="617" width="150" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="5ua-e7-W7h"/>
                                     <constraint firstAttribute="width" constant="150" id="Iqx-8p-vIj"/>
@@ -402,7 +402,7 @@
                                         </connections>
                                     </tableView>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NO EVENTS AVAILABLE." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sxN-8x-B2B">
-                                        <rect key="frame" x="30" y="237.5" width="315" height="22.5"/>
+                                        <rect key="frame" x="30" y="237" width="315" height="23"/>
                                         <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="16"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -500,7 +500,7 @@
                                                         <rect key="frame" x="0.0" y="1" width="371" height="60"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JBb-is-bcr" id="mkV-zc-Mfh">
-                                                            <rect key="frame" x="0.0" y="0.0" width="371" height="60"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="371" height="59"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eBz-tm-xEh">
@@ -1744,16 +1744,16 @@
                                                 <rect key="frame" x="0.0" y="1" width="375" height="60"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0DS-Wy-tfw" id="ow0-H9-rLc">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="59"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hVA-9i-7sR">
-                                                            <rect key="frame" x="10" y="10" width="305" height="39.5"/>
+                                                            <rect key="frame" x="10" y="10" width="305" height="40"/>
                                                             <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="20"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CheckMark" translatesAutoresizingMaskIntoConstraints="NO" id="cPM-AJ-LZ3">
-                                                            <rect key="frame" x="325" y="10" width="40" height="39.5"/>
+                                                            <rect key="frame" x="325" y="10" width="40" height="40"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="40" id="s5m-3P-yHn"/>
                                                             </constraints>
@@ -1825,7 +1825,7 @@
                                 <rect key="frame" x="0.0" y="150" width="375" height="407"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="EMAIL" textAlignment="natural" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="hbu-dZ-okK">
-                                        <rect key="frame" x="50" y="25" width="275" height="51.5"/>
+                                        <rect key="frame" x="50" y="25" width="275" height="52"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="FC1-Xy-I1U"/>
                                             <constraint firstAttribute="height" relation="lessThanOrEqual" constant="52" id="V3K-3y-gYD"/>
@@ -1835,7 +1835,7 @@
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress"/>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="FIRST NAME" textAlignment="natural" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="ad5-TC-yN3">
-                                        <rect key="frame" x="50" y="101.5" width="275" height="51.5"/>
+                                        <rect key="frame" x="50" y="102" width="275" height="51"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
@@ -1847,13 +1847,13 @@
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="PASSWORD" textAlignment="natural" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="ETk-n4-CfJ">
-                                        <rect key="frame" x="50" y="254" width="275" height="51.5"/>
+                                        <rect key="frame" x="50" y="254" width="275" height="52"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="CONFIRM PASSWORD" textAlignment="natural" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="lrE-ce-UtO">
-                                        <rect key="frame" x="50" y="330.5" width="275" height="51.5"/>
+                                        <rect key="frame" x="50" y="331" width="275" height="51"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
@@ -1903,14 +1903,14 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3tP-9w-AeA">
-                                <rect key="frame" x="137.5" y="40" width="100" height="100"/>
+                                <rect key="frame" x="138" y="40" width="100" height="100"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <action selector="captureUserImageClicked:" destination="k5H-kI-R8J" eventType="touchUpInside" id="Fux-dc-Zyc"/>
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="UserProfilePicture" translatesAutoresizingMaskIntoConstraints="NO" id="3Kx-fd-1Km">
-                                <rect key="frame" x="137.5" y="40" width="100" height="100"/>
+                                <rect key="frame" x="138" y="40" width="100" height="100"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="u7o-af-Cwh"/>
@@ -2068,7 +2068,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="plI-vl-mG2">
+                                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="plI-vl-mG2">
                                                 <rect key="frame" x="0.0" y="547" width="375" height="50"/>
                                                 <color key="backgroundColor" red="0.59999999999999998" green="0.08235294118" blue="0.20784313730000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
@@ -2148,6 +2148,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="btnRemindMe" destination="plI-vl-mG2" id="Mlg-wW-xsR"/>
                         <outlet property="lblEventCategory" destination="0m6-nN-BBV" id="YW8-g2-TTW"/>
                         <outlet property="lblEventDate" destination="HOE-L5-mah" id="DAh-IX-81W"/>
                         <outlet property="lblEventLocation" destination="aoE-qZ-5zk" id="O95-Ii-Up8"/>
@@ -2165,7 +2166,7 @@
         <image name="AddReminder" width="35" height="34"/>
         <image name="Back" width="24" height="24"/>
         <image name="CheckMark" width="171" height="164"/>
-        <image name="Clear" width="24" height="24"/>
+        <image name="Clear" width="49" height="49"/>
         <image name="Hamburgar" width="18" height="12"/>
         <image name="RemoveReminder" width="35" height="34"/>
         <image name="SaveWhite" width="85" height="85"/>

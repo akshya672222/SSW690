@@ -310,6 +310,7 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
             global.removeIndicatorView()
             global.userdefaults.set(webServiceObj.stringEncrypt(string: textFieldConfirmPassword.text!), forKey: "password")
             global.userdefaults.set(textFieldEmail.text!, forKey: "username")
+            global.userdefaults.synchronize()
             let alertV = UIAlertController(title: "STEVENS LIVE", message: dictionary["message"] as? String, preferredStyle: .alert)
             let alertOKAction=UIAlertAction(title:"OK", style: UIAlertActionStyle.default,handler: { action in
                 self.global.addIndicatorView()
@@ -319,9 +320,11 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
             self.present(alertV, animated: true, completion: nil)
         }else if method == webServiceObj.method_login{
             global.userdefaults.set(true, forKey: "isLogin")
+            global.userdefaults.synchronize()
             let categoryArray = dictionary["categories"] as! NSArray
             let userDict = dictionary["user"] as! NSDictionary
             let subscription_array = dictionary["Subscription"] as! Array<Int>
+            let reminder_array = dictionary["Reminders"] as! Array<Int>
 
             (global.appDelegate.vcObj as! ViewController).cat_data_Array = Array<Any>()
             (global.appDelegate.vcObj as! ViewController).user_data_obj = UserData()
@@ -332,9 +335,10 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
                 (global.appDelegate.vcObj as! ViewController).cat_data_Array.append(category_data_obj)
             }
             
-            (global.appDelegate.vcObj as! ViewController).user_data_obj = UserData.init(email: userDict["email"] as? String, profile_picpath: userDict["profile_picpath"] as? String, user_fname: userDict["user_fname"] as? String, user_id: userDict["user_id"] as? Int, user_lname: userDict["user_lname"] as? String, subscription_arr: subscription_array)
+            (global.appDelegate.vcObj as! ViewController).user_data_obj = UserData.init(email: userDict["email"] as? String, profile_picpath: userDict["profile_picpath"] as? String, user_fname: userDict["user_fname"] as? String, user_id: userDict["user_id"] as? Int, user_lname: userDict["user_lname"] as? String, subscription_arr: subscription_array, reminder_arr: reminder_array)
             
 //            user_data_obj = UserData.init(email: userDict["email"] as? String, profile_picpath: userDict["profile_picpath"] as? String, user_fname: userDict["user_fname"] as? String, user_id: userDict["user_id"] as? Int, user_lname: userDict["user_lname"] as? String)
+            
             self.performSegue(withIdentifier: "registerSuccess", sender: btnRegister)
         }
     }
@@ -430,15 +434,7 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "registerSuccess") {
-            //get a reference to the destination view controller
-            let destinationVC:HomeViewController = segue.destination as! HomeViewController
-            
-            //set properties on the destination view controller
-            destinationVC.category_data_array = (global.appDelegate.vcObj as! ViewController).cat_data_Array
-            destinationVC.user_data = (global.appDelegate.vcObj as! ViewController).user_data_obj
 
-        }
     }
     
 }

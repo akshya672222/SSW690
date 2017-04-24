@@ -89,18 +89,20 @@ class ViewController: UIViewController, UITextFieldDelegate, WebServicesDelegate
             global.userdefaults.set(true, forKey: "isLogin")
             global.userdefaults.set(webServiceObj.stringEncrypt(string: textFieldPassword.text!), forKey: "password")
             global.userdefaults.set(textFieldUsername.text!, forKey: "username")
+            global.userdefaults.synchronize()
             let categoryArray = dictionary["categories"] as! NSArray
             let userDict = dictionary["user"] as! NSDictionary
             
             let subscription_array = dictionary["Subscription"] as! Array<Int>
-            
+            let reminder_array = dictionary["Reminders"] as! Array<Int>
+
             for categories in categoryArray{
                 let cat_dict = categories as! NSDictionary
                 let category_data_obj = CategoryData.init(Category_id: cat_dict["category_id"] as? Int, Category_name: cat_dict["category_name"] as? String)
                 cat_data_Array.append(category_data_obj)
             }
             
-            user_data_obj = UserData.init(email: userDict["email"] as? String, profile_picpath: userDict["profile_picpath"] as? String, user_fname: userDict["user_fname"] as? String, user_id: userDict["user_id"] as? Int, user_lname: userDict["user_lname"] as? String, subscription_arr: subscription_array)
+            user_data_obj = UserData.init(email: userDict["email"] as? String, profile_picpath: userDict["profile_picpath"] as? String, user_fname: userDict["user_fname"] as? String, user_id: userDict["user_id"] as? Int, user_lname: userDict["user_lname"] as? String, subscription_arr: subscription_array, reminder_arr: reminder_array)
             
             self.performSegue(withIdentifier: "home", sender: btnLogin)
         }else if method == webServiceObj.method_forgot_password{
@@ -165,15 +167,7 @@ class ViewController: UIViewController, UITextFieldDelegate, WebServicesDelegate
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "home"{
-            
-            let destinationVC:HomeViewController = segue.destination as! HomeViewController
-            
-            //set properties on the destination view controller
-            destinationVC.category_data_array = cat_data_Array
-            destinationVC.user_data = user_data_obj
-            
-        }
+        
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
