@@ -9,7 +9,7 @@ import time
 
 def open_page(url):
     try:
-        browser = webdriver.PhantomJS('/Users/rafifarab/Desktop/SSW690/Web_Scraping/phantomjs-2.1.1-macosx/bin/phantomjs')
+        browser = webdriver.PhantomJS('phantomjs-2.1.1-macosx/bin/phantomjs')
         browser.get(url)
         html = browser.page_source
         soup = BeautifulSoup ( html , 'html.parser' )
@@ -159,7 +159,7 @@ def fill_db_timeStamp(TableName,cur,con):
         con.commit()  
 
 try:
-    con = sqlite3.connect("/Users/rafifarab/Desktop/SSW690/Web_Scraping/Stevens.db")
+    con = sqlite3.connect("Stevens.db")
     cur=con.cursor()
     
 except Exception as e: #sqlite3.OperationalError
@@ -187,7 +187,7 @@ except Exception as e:
     print e   
 
     
-#fill_db_Event(Event_Data,cur,con)
-#fill_db_Category(Category_Data,cur,con)
-#fill_db_Event_Category(Event_Category_Data,cur,con)
-#delete_db_Event(cur,con)
+fill_db_Event(Event_Data,cur,con)
+fill_db_Category(Category_Data,cur,con)
+fill_db_Event_Category(Event_Category_Data,cur,con)
+delete_db_Event(cur,con)
