@@ -23,7 +23,7 @@ class MySubscriptionViewController: UIViewController, UITableViewDelegate, UITab
     
     @IBAction func save_Subscription(_ sender: Any) {
         global.addIndicatorView()
-        web_service_obj.add_remove_subscriptions(subscription_arr: arrayCategorySelected as! Array<Any>, user_id: (global.appDelegate.vcObj as! ViewController).user_data_obj.user_id!)
+        web_service_obj.add_remove_subscriptions(subscription_arr: arrayCategorySelected as! Array<Any>, user_id: (global.getVCObj()).user_data_obj.user_id!)
     }
     
     func didFinishWithError(method: String, errorMessage: String) {
@@ -38,8 +38,8 @@ class MySubscriptionViewController: UIViewController, UITableViewDelegate, UITab
     
     func didFinishSuccessfully(method: String, dictionary: NSDictionary) {
         print(dictionary)
-        (global.appDelegate.vcObj as! ViewController).user_data_obj.subscription_arr.removeAll()
-        (global.appDelegate.vcObj as! ViewController).user_data_obj.subscription_arr = arrayCategorySelected as! Array<Int>
+        (global.getVCObj()).user_data_obj.subscription_arr.removeAll()
+        (global.getVCObj()).user_data_obj.subscription_arr = arrayCategorySelected as! Array<Int>
         global.removeIndicatorView()
     }
 
@@ -62,13 +62,13 @@ class MySubscriptionViewController: UIViewController, UITableViewDelegate, UITab
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
-        return (global.appDelegate.vcObj as! ViewController).cat_data_Array.count
+        return (global.getVCObj()).cat_data_Array.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "category", for: indexPath) as! CategoryTableViewCell;
         
-        let cat_array = (global.appDelegate.vcObj as! ViewController).cat_data_Array as NSArray
+        let cat_array = (global.getVCObj()).cat_data_Array as NSArray
         
         let cat_data = cat_array.object(at: indexPath.row) as! CategoryData
         
@@ -102,7 +102,7 @@ class MySubscriptionViewController: UIViewController, UITableViewDelegate, UITab
         
         web_service_obj.webServiceDelegate = self
         
-        arrayCategorySelected.addObjects(from: (global.appDelegate.vcObj as! ViewController).user_data_obj.subscription_arr)
+        arrayCategorySelected.addObjects(from: (global.getVCObj()).user_data_obj.subscription_arr)
         
         tblViewCategories.layoutIfNeeded()
         tblViewCategories.reloadData()

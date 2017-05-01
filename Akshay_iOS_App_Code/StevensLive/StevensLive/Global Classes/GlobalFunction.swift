@@ -17,10 +17,51 @@ class GlobalFunction{
     let redColor = UIColor.init(red: 157.0/255.0, green: 21.0/255.0, blue: 53.0/255.0, alpha: 1.0)
     let userdefaults = UserDefaults.standard
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-
+    let image_name_str = "user_image.png"
+    let keyUsername = "username"
+    let keyPassword = "password"
+    let keyIsLogin = "isLogin"
+    let keyProfilePic = "isProfilePic"
+    
+    func getVCObj() -> ViewController {
+        return appDelegate.vcObj as! ViewController
+    }
     
     func isKeyPresentInUserDefaults(key: String) -> Bool {
         return userdefaults.object(forKey: key) != nil
+    }
+    
+    func getDirectoryPath() -> String? {
+        let dirPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
+        return dirPath
+    }
+    
+    func saveImage(image: UIImage, image_name: String) -> Bool {
+        var image_save = false
+        if let dirPath = getDirectoryPath() {
+            let writePath = URL(fileURLWithPath: dirPath).appendingPathComponent(image_name)
+            deleteImage(delete_path: writePath)
+            try! UIImagePNGRepresentation(image)?.write(to: writePath)
+            image_save = true
+        }
+        return image_save
+    }
+    
+    func deleteImage(delete_path: URL){
+        do{
+            try FileManager.default.removeItem(at: delete_path)
+        }catch{
+            print("error deleting file!!!")
+        }
+    }
+    
+    func getImage(image_name: String) -> UIImage {
+        var image = UIImage()
+        if let dirPath = getDirectoryPath(){
+            let imageURL = URL(fileURLWithPath: dirPath).appendingPathComponent(image_name)
+            image = UIImage(contentsOfFile: imageURL.path)!
+        }
+        return image
     }
     
     enum UIUserInterfaceIdiom : Int{

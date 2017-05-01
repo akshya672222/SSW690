@@ -33,8 +33,10 @@ class ViewController: UIViewController, UITextFieldDelegate, WebServicesDelegate
     var btnNext = UIButton();
     var btnDone = UIButton();
     let global = GlobalFunction();
-    
+    var is_profile_pic = false
+
     let webServiceObj = WebServices()
+    var user_image = UIImage()
     
 
     var tField: UITextField!
@@ -86,9 +88,9 @@ class ViewController: UIViewController, UITextFieldDelegate, WebServicesDelegate
     func didFinishSuccessfully(method: String, dictionary: NSDictionary) {
         print(dictionary)
         if method == webServiceObj.method_login{
-            global.userdefaults.set(true, forKey: "isLogin")
-            global.userdefaults.set(webServiceObj.stringEncrypt(string: textFieldPassword.text!), forKey: "password")
-            global.userdefaults.set(textFieldUsername.text!, forKey: "username")
+            global.userdefaults.set(true, forKey: global.keyIsLogin)
+            global.userdefaults.set(webServiceObj.stringEncrypt(string: textFieldPassword.text!), forKey: global.keyPassword)
+            global.userdefaults.set(textFieldUsername.text!, forKey: global.keyUsername)
             global.userdefaults.synchronize()
             let categoryArray = dictionary["categories"] as! NSArray
             let userDict = dictionary["user"] as! NSDictionary
@@ -102,7 +104,7 @@ class ViewController: UIViewController, UITextFieldDelegate, WebServicesDelegate
                 cat_data_Array.append(category_data_obj)
             }
             
-            user_data_obj = UserData.init(email: userDict["email"] as? String, profile_picpath: userDict["profile_picpath"] as? String, user_fname: userDict["user_fname"] as? String, user_id: userDict["user_id"] as? Int, user_lname: userDict["user_lname"] as? String, subscription_arr: subscription_array, reminder_arr: reminder_array)
+            user_data_obj = UserData.init(email: userDict["email"] as? String, profile_picpath: userDict["profile_picpath"] as? String, user_fname: userDict["user_fname"] as? String, user_id: userDict["user_id"] as? Int, user_lname: userDict["user_lname"] as? String, subscription_arr: subscription_array, reminder_arr: reminder_array, is_profile_pic: is_profile_pic)
             
             self.performSegue(withIdentifier: "home", sender: btnLogin)
         }else if method == webServiceObj.method_forgot_password{
@@ -118,6 +120,7 @@ class ViewController: UIViewController, UITextFieldDelegate, WebServicesDelegate
             self.present(alertV, animated: true, completion:nil)
         }
     }
+    
     
     @IBAction func loginClicked(_ sender: Any) {
         
@@ -158,6 +161,15 @@ class ViewController: UIViewController, UITextFieldDelegate, WebServicesDelegate
             return
         }
         global.addIndicatorView();
+        
+        if global.isKeyPresentInUserDefaults(key: global.keyUsername){
+            if textFieldUsername.text == global.userdefaults.value(forKey: global.keyUsername) as! String?{
+                if global.isKeyPresentInUserDefaults(key: global.keyProfilePic){
+                    is_profile_pic = global.userdefaults.bool(forKey: global.keyProfilePic)
+                }
+            }
+        }
+        
         webServiceObj.loginUser(email: textFieldUsername.text!, password: textFieldPassword.text!, token: "")
         
     }
@@ -234,28 +246,30 @@ class ViewController: UIViewController, UITextFieldDelegate, WebServicesDelegate
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        print(webServiceObj.stringEncrypt(string: "123456"))
-//        print(webServiceObj.stringDecrypt(string: "WEVbi2pUEErQ+Wp2jJG49Q=="))
-        
+
         webServiceObj.webServiceDelegate = self
         
         textFieldUsername.delegate = self;
         textFieldPassword.delegate = self;
 
-        if global.isKeyPresentInUserDefaults(key: "username"){
-            textFieldUsername.text = global.userdefaults.value(forKey: "username") as! String?
+        if global.isKeyPresentInUserDefaults(key: global.keyUsername){
+            textFieldUsername.text = global.userdefaults.value(forKey: global.keyUsername) as! String?
         }
-        if global.isKeyPresentInUserDefaults(key: "password"){
-            textFieldPassword.text = webServiceObj.stringDecrypt(string: (global.userdefaults.value(forKey: "password") as! String?)!)
+        if global.isKeyPresentInUserDefaults(key: global.keyPassword){
+            textFieldPassword.text = webServiceObj.stringDecrypt(string: (global.userdefaults.value(forKey: global.keyPassword) as! String?)!)
         }
-        if global.isKeyPresentInUserDefaults(key: "isLogin"){
-            global.addIndicatorView()
-            webServiceObj.loginUser(email: textFieldUsername.text!, password: textFieldPassword.text!, token: "")
+        if global.isKeyPresentInUserDefaults(key: global.keyIsLogin){
+            if global.userdefaults.bool(forKey: global.keyIsLogin){
+                global.addIndicatorView()
+                webServiceObj.loginUser(email: textFieldUsername.text!, password: textFieldPassword.text!, token: "")
+            }
+        }
+        
+        if global.isKeyPresentInUserDefaults(key: global.keyProfilePic){
+            is_profile_pic = global.userdefaults.bool(forKey: global.keyProfilePic)
         }
         
         global.appDelegate.vcObj = self
-        
         lblPasswordBottom.backgroundColor = global.redColor;
         lblUsernameBottom.backgroundColor = UIColor.black;
         

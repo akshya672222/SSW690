@@ -56,7 +56,6 @@ class WebServices {
         var encryptString = String()
         
         encryptString = try! string.aesEncrypt(key: key, iv: iv)
-        
         return encryptString
     }
     

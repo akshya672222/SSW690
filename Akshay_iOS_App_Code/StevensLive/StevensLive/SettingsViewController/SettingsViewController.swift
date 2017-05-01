@@ -170,19 +170,23 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
     }
 
     @IBAction func editFirstNameClicked(_ sender: Any) {
+        textFieldUserFirstName.text = lblUserFirstName.text
         performHideAnimationOnEditViews(view: viewTextFieldFirstNameHolder)
     }
 
     @IBAction func clearFirstName(_ sender: Any) {
         performCancelAnimationOnEditViews(view: viewTextFieldFirstNameHolder)
+        lblUserFirstName.text = textFieldUserFirstName.text
     }
     
     @IBAction func editSecondNAme(_ sender: Any) {
+        textFieldUserLAstName.text = lblUserLAstName.text
         performHideAnimationOnEditViews(view: viewTextFieldLastNameHolder)
     }
     
     @IBAction func clearLastName(_ sender: Any) {
         performCancelAnimationOnEditViews(view: viewTextFieldLastNameHolder)
+        lblUserLAstName.text = textFieldUserLAstName.text
     }
 
     @IBAction func editPAssword(_ sender: Any) {
@@ -238,9 +242,18 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, UIImagePick
         btnSave.layer.cornerRadius = 2.0;
         btnSave.layer.masksToBounds = true;
         
-        lblUserLAstName.text = "AKSHAY"
-        lblUserFirstName.text = "EVIL"
+        lblUserLAstName.text = global.getVCObj().user_data_obj.user_lname
+        lblUserFirstName.text = global.getVCObj().user_data_obj.user_fname
         lblUserPassword.text = "*********"
+        
+        if global.getVCObj().user_data_obj.is_profile_pic{
+            imgViewUserProfilePicture.image = global.getVCObj().user_image
+            imgViewUserProfilePicture.layer.borderWidth=0.5
+            imgViewUserProfilePicture.layer.masksToBounds = false
+            imgViewUserProfilePicture.layer.borderColor = UIColor.white.cgColor
+            imgViewUserProfilePicture.layer.cornerRadius = imgViewUserProfilePicture.frame.size.height/2
+            imgViewUserProfilePicture.clipsToBounds = true
+        }
         
         textFieldUpdatePassword.delegate = self;
         textFieldUserLAstName.delegate = self;

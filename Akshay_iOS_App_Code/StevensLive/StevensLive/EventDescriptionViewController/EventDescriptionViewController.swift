@@ -37,7 +37,7 @@ class EventDescriptionViewController: UIViewController, WebServicesDelegate{
     
     @IBAction func remindMeToEvent(_ sender: Any) {
         global.addIndicatorView()
-        webServicesObj.add_remove_reminder(user_id: (global.appDelegate.vcObj as! ViewController).user_data_obj.user_id!, event_id: Event_data_obj.Event_id!)
+        webServicesObj.add_remove_reminder(user_id: (global.getVCObj()).user_data_obj.user_id!, event_id: Event_data_obj.Event_id!)
     }
     
     func didFinishWithError(method: String, errorMessage: String) {
@@ -58,12 +58,12 @@ class EventDescriptionViewController: UIViewController, WebServicesDelegate{
         var message = String()
         if btnRemindMe.titleLabel?.text == "REMIND ME" {
             btnRemindMe.setTitle("REMOVE REMINDER", for: .normal)
-            (global.appDelegate.vcObj as! ViewController).user_data_obj.reminder_arr.append(Event_data_obj.Event_id!)
+            (global.getVCObj()).user_data_obj.reminder_arr.append(Event_data_obj.Event_id!)
             message = "Reminder added successfully."
             
         }else{
             btnRemindMe.setTitle("REMIND ME", for: .normal)
-            (global.appDelegate.vcObj as! ViewController).user_data_obj.reminder_arr.remove(at: (global.appDelegate.vcObj as! ViewController).user_data_obj.reminder_arr.index(of: Event_data_obj.Event_id!)!)
+            (global.getVCObj()).user_data_obj.reminder_arr.remove(at: (global.getVCObj()).user_data_obj.reminder_arr.index(of: Event_data_obj.Event_id!)!)
             message = "Reminder removed successfully."
         }
         global.removeIndicatorView()
@@ -85,7 +85,7 @@ class EventDescriptionViewController: UIViewController, WebServicesDelegate{
         lblEventLocation.text = Event_data_obj.Event_location
         textViewEventDescription.text = Event_data_obj.Event_description
         
-        if (global.appDelegate.vcObj as! ViewController).user_data_obj.reminder_arr.contains(Event_data_obj.Event_id!) {
+        if (global.getVCObj()).user_data_obj.reminder_arr.contains(Event_data_obj.Event_id!) {
             btnRemindMe.setTitle("REMOVE REMINDER", for: .normal)
         }
         
@@ -96,7 +96,7 @@ class EventDescriptionViewController: UIViewController, WebServicesDelegate{
         var str = "" as String;
         for categories in Event_data_obj.Event_category! {
             let cat_id = categories as Int
-            for cat in (global.appDelegate.vcObj as! ViewController).cat_data_Array{
+            for cat in (global.getVCObj()).cat_data_Array{
                 let cat_data_obj = cat as! CategoryData
                 if cat_data_obj.category_id == cat_id{
                     if count == 0 {

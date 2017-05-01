@@ -77,7 +77,8 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
     var selectedCategoryId = 0
     var selectedSearchString = ""
     
-    let sideMenuItems = ["Home", "My Subscriptions", "My Reminders", "Settings"] as NSArray
+//    let sideMenuItems = ["Home", "My Subscriptions", "My Reminders", "Settings"] as NSArray
+    let sideMenuItems = ["Home", "My Subscriptions", "Settings"] as NSArray
 
     var previousIndexPath = IndexPath()
     var previousIndexPath_sideMenu = IndexPath.init(row: 0, section: 0)
@@ -105,7 +106,6 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
     
     var tblCell_reminder = EventTableViewCell()
     
-
     @IBAction func addReminderClicked(_ sender: Any) {
         
         global.addIndicatorView()
@@ -121,7 +121,7 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
             event_data_obj = event_data_array[tblCell_reminder.btnAddReminder.tag] as! EventData
         }
 
-        webServiceObj.add_remove_reminder(user_id: (global.appDelegate.vcObj as! ViewController).user_data_obj.user_id!, event_id:event_data_obj.Event_id!)
+        webServiceObj.add_remove_reminder(user_id: (global.getVCObj()).user_data_obj.user_id!, event_id:event_data_obj.Event_id!)
         
     }
     
@@ -147,7 +147,7 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
                                        message: "Are you sure? You want to Logout.",
                                        preferredStyle: .alert)
         let alertYesAction=UIAlertAction(title:"YES", style: UIAlertActionStyle.destructive,handler: { action in
-            self.global.userdefaults.set(false, forKey: "isLogin")
+            self.global.userdefaults.set(false, forKey: self.global.keyIsLogin)
             self.global.userdefaults.synchronize()
             self.performSegue(withIdentifier: "logoutseague", sender: self)
         })
@@ -374,16 +374,17 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
                     self.view.layoutIfNeeded()
                 }, completion: { (True) in
                     self.closeSideBar()
-                    if indexPath.row == 3{
+                    if indexPath.row == 2{ //3
                         let settingsVC = self.storyboard?.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
                         self.present(settingsVC, animated: True, completion: nil)
                     }else if indexPath.row == 1{
                         let mySubscriptionVC = self.storyboard?.instantiateViewController(withIdentifier: "MySubscriptionViewController") as! MySubscriptionViewController
                         self.present(mySubscriptionVC, animated: True, completion: nil)
-                    }else if indexPath.row == 2{
-                        let myReminderVC = self.storyboard?.instantiateViewController(withIdentifier: "MyReminderViewController") as! MyReminderViewController
-                        self.present(myReminderVC, animated: True, completion: nil)
                     }
+//                    else if indexPath.row == 2{
+//                        let myReminderVC = self.storyboard?.instantiateViewController(withIdentifier: "MyReminderViewController") as! MyReminderViewController
+//                        self.present(myReminderVC, animated: True, completion: nil)
+//                    }
                     // close side bar and navigate to view
                 })
             }
@@ -458,7 +459,7 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
 
             return event_data_array.count
         }else if tableView == tblCategories{
-            return (global.appDelegate.vcObj as! ViewController).cat_data_Array.count
+            return (global.getVCObj()).cat_data_Array.count
         }else if tableView == tableViewSideBar{
             return sideMenuItems.count
         }
@@ -568,7 +569,7 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
             cell.lblEventCategory.text = event_data_obj.Event_location
             cell.btnAddReminder.tag = indexPath.row
             
-            if (global.appDelegate.vcObj as! ViewController).user_data_obj.reminder_arr.contains(event_data_obj.Event_id!) {
+            if (global.getVCObj()).user_data_obj.reminder_arr.contains(event_data_obj.Event_id!) {
                 cell.btnAddReminder.isSelected = true
             }else{
                 cell.btnAddReminder.isSelected = false
@@ -603,7 +604,7 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
          
             let cell = tableView.dequeueReusableCell(withIdentifier: "category", for: indexPath) as! CategoryTableViewCell
             
-            let cat_data_obj = (global.appDelegate.vcObj as! ViewController).cat_data_Array[indexPath.row] as! CategoryData
+            let cat_data_obj = (global.getVCObj()).cat_data_Array[indexPath.row] as! CategoryData
             
             cell.lblCategoryName.text = cat_data_obj.category_name
             cell.lblCategoryName.tag = cat_data_obj.category_id!
@@ -668,8 +669,11 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
         textFieldSearch.attributedPlaceholder = NSAttributedString(string: "Type to search...",
                                                                attributes: [NSForegroundColorAttributeName: UIColor.white])
         
-        
-        lblUserName.text = "\((global.appDelegate.vcObj as! ViewController).user_data_obj.user_fname!) \((global.appDelegate.vcObj as! ViewController).user_data_obj.user_lname!)"
+        if global.getVCObj().user_data_obj.is_profile_pic {
+            imagePP = global.getImage(image_name: global.image_name_str)
+        }
+
+        lblUserName.text = "\((global.getVCObj()).user_data_obj.user_fname!) \((global.getVCObj()).user_data_obj.user_lname!)"
         
         tblViewEvent.addSubview(self.refreshControl)
         
@@ -685,6 +689,8 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
             lblUserName.text = fullNameString
         }
         
+        global.getVCObj().user_image = imagePP
+
         if imagePP != #imageLiteral(resourceName: "UserProfilePicture"){
             imgViewUserProfilePicture.image = imagePP
         }
@@ -746,11 +752,11 @@ class HomeViewController: UIViewController, UITextFieldDelegate, UITableViewDele
 
             if tblCell_reminder.btnAddReminder.isSelected{
                 tblCell_reminder.btnAddReminder.isSelected = false
-                (global.appDelegate.vcObj as! ViewController).user_data_obj.reminder_arr.remove(at: (global.appDelegate.vcObj as! ViewController).user_data_obj.reminder_arr.index(of: event_data_obj.Event_id!)!)
+                (global.getVCObj()).user_data_obj.reminder_arr.remove(at: (global.getVCObj()).user_data_obj.reminder_arr.index(of: event_data_obj.Event_id!)!)
                 message = "Reminder removed successfully."
             }else{
                 tblCell_reminder.btnAddReminder.isSelected = true
-                (global.appDelegate.vcObj as! ViewController).user_data_obj.reminder_arr.append(event_data_obj.Event_id!)
+                (global.getVCObj()).user_data_obj.reminder_arr.append(event_data_obj.Event_id!)
                 message = "Reminder added successfully."
             }
             global.removeIndicatorView()

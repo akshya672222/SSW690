@@ -37,7 +37,7 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
     var btnDone = UIButton();
     var global = GlobalFunction();
     let webServiceObj = WebServices()
-    var image_name = ""
+    var is_profile_pic = Bool()
     var user_image = UIImage()
     
     func createInputAccessoryView() {
@@ -238,10 +238,10 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
         imagePicker.delegate = self
         alert.addAction(cameraAction)
         alert.addAction(gallaryAction)
-        if image_name != "" {
+        if is_profile_pic {
             removePic = UIAlertAction(title: "Remove Image", style: UIAlertActionStyle.default, handler: { UIAlertAction in
                 self.imageViewUserProfilePicture.image = #imageLiteral(resourceName: "UserProfilePicture")
-                self.image_name = ""
+                self.is_profile_pic = false
             })
             alert.addAction(removePic)
         }
@@ -274,7 +274,7 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         picker.dismiss(animated: true, completion: nil);
         
-        image_name = "user_image"
+        is_profile_pic = true
         
         imageViewUserProfilePicture.image = info[UIImagePickerControllerOriginalImage] as? UIImage;
         
@@ -307,9 +307,20 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
     func didFinishSuccessfully(method: String, dictionary: NSDictionary) {
         print(dictionary)
         if method == webServiceObj.method_registration {
-            global.removeIndicatorView()
-            global.userdefaults.set(webServiceObj.stringEncrypt(string: textFieldConfirmPassword.text!), forKey: "password")
-            global.userdefaults.set(textFieldEmail.text!, forKey: "username")
+            if is_profile_pic{
+                let pathArray = [global.getDirectoryPath()!, global.image_name_str]
+                let filePath = URL(string: pathArray.joined(separator: "/"))
+                if global.saveImage(image: imageViewUserProfilePicture.image!, image_name: global.image_name_str){
+                    global.userdefaults.set(true, forKey: global.keyProfilePic)
+                }else{
+                    global.userdefaults.set(false, forKey: global.keyProfilePic)
+                }
+                print(filePath!)
+            }else{
+                global.userdefaults.set(false, forKey: global.keyProfilePic)
+            }
+            global.userdefaults.set(webServiceObj.stringEncrypt(string: textFieldConfirmPassword.text!), forKey: global.keyPassword)
+            global.userdefaults.set(textFieldEmail.text!, forKey: global.keyUsername)
             global.userdefaults.synchronize()
             let alertV = UIAlertController(title: "STEVENS LIVE", message: dictionary["message"] as? String, preferredStyle: .alert)
             let alertOKAction=UIAlertAction(title:"OK", style: UIAlertActionStyle.default,handler: { action in
@@ -317,28 +328,27 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
                 self.webServiceObj.loginUser(email: self.textFieldEmail.text!, password: self.textFieldConfirmPassword.text!, token: "")
             })
             alertV.addAction(alertOKAction)
+            global.removeIndicatorView()
             self.present(alertV, animated: true, completion: nil)
         }else if method == webServiceObj.method_login{
-            global.userdefaults.set(true, forKey: "isLogin")
+            global.userdefaults.set(true, forKey: global.keyIsLogin)
             global.userdefaults.synchronize()
             let categoryArray = dictionary["categories"] as! NSArray
             let userDict = dictionary["user"] as! NSDictionary
             let subscription_array = dictionary["Subscription"] as! Array<Int>
             let reminder_array = dictionary["Reminders"] as! Array<Int>
 
-            (global.appDelegate.vcObj as! ViewController).cat_data_Array = Array<Any>()
-            (global.appDelegate.vcObj as! ViewController).user_data_obj = UserData()
+            (global.getVCObj()).cat_data_Array = Array<Any>()
+            (global.getVCObj()).user_data_obj = UserData()
 
             for categories in categoryArray{
                 let cat_dict = categories as! NSDictionary
                 let category_data_obj = CategoryData.init(Category_id: cat_dict["category_id"] as? Int, Category_name: cat_dict["category_name"] as? String)
-                (global.appDelegate.vcObj as! ViewController).cat_data_Array.append(category_data_obj)
+                (global.getVCObj()).cat_data_Array.append(category_data_obj)
             }
             
-            (global.appDelegate.vcObj as! ViewController).user_data_obj = UserData.init(email: userDict["email"] as? String, profile_picpath: userDict["profile_picpath"] as? String, user_fname: userDict["user_fname"] as? String, user_id: userDict["user_id"] as? Int, user_lname: userDict["user_lname"] as? String, subscription_arr: subscription_array, reminder_arr: reminder_array)
-            
-//            user_data_obj = UserData.init(email: userDict["email"] as? String, profile_picpath: userDict["profile_picpath"] as? String, user_fname: userDict["user_fname"] as? String, user_id: userDict["user_id"] as? Int, user_lname: userDict["user_lname"] as? String)
-            
+            (global.getVCObj()).user_data_obj = UserData.init(email: userDict["email"] as? String, profile_picpath: userDict["profile_picpath"] as? String, user_fname: userDict["user_fname"] as? String, user_id: userDict["user_id"] as? Int, user_lname: userDict["user_lname"] as? String, subscription_arr: subscription_array, reminder_arr: reminder_array, is_profile_pic: is_profile_pic)
+                        
             self.performSegue(withIdentifier: "registerSuccess", sender: btnRegister)
         }
     }
@@ -418,11 +428,10 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate, UIImage
             return
         }
         global.addIndicatorView();
-        if image_name != ""{
-            webServiceObj.registerUser(email: textFieldEmail.text!, first_name: textFieldUsername.text!, last_name: textFieldPassword.text!, password: textFieldConfirmPassword.text!, image_name: image_name, image: imageViewUserProfilePicture.image)
-        }else{
-            webServiceObj.registerUser(email: textFieldEmail.text!, first_name: textFieldUsername.text!, last_name: textFieldPassword.text!, password: textFieldConfirmPassword.text!)
-        }
+        webServiceObj.registerUser(email: textFieldEmail.text!, first_name: textFieldUsername.text!, last_name: textFieldPassword.text!, password: textFieldConfirmPassword.text!)
+
+//        webServiceObj.registerUser(email: textFieldEmail.text!, first_name: textFieldUsername.text!, last_name: textFieldPassword.text!, password: textFieldConfirmPassword.text!, image_name: image_name, image: imageViewUserProfilePicture.image)
+
     
     }
     

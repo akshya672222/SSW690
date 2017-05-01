@@ -353,14 +353,13 @@
 					};
 					BA544DF41E415508001034BD = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 3GRVS95TMT;
-						ProvisioningStyle = Automatic;
+						DevelopmentTeam = 8T495NXCBQ;
+						ProvisioningStyle = Manual;
 						TestTargetID = BA544DE01E415508001034BD;
 					};
 					BA544DFF1E415508001034BD = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 3GRVS95TMT;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						TestTargetID = BA544DE01E415508001034BD;
 					};
 				};
@@ -764,11 +763,13 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = 3GRVS95TMT;
+				DEVELOPMENT_TEAM = 8T495NXCBQ;
 				INFOPLIST_FILE = StevensLiveTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = AKSHAY.StevensLiveTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "6a3e89c2-ea0c-43c7-9ec6-39eacd5e52dd";
+				PROVISIONING_PROFILE_SPECIFIER = AllApps_20160214;
 				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StevensLive.app/StevensLive";
 			};
@@ -780,11 +781,13 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = 3GRVS95TMT;
+				DEVELOPMENT_TEAM = 8T495NXCBQ;
 				INFOPLIST_FILE = StevensLiveTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = AKSHAY.StevensLiveTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "6a3e89c2-ea0c-43c7-9ec6-39eacd5e52dd";
+				PROVISIONING_PROFILE_SPECIFIER = AllApps_20160214;
 				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StevensLive.app/StevensLive";
 			};
@@ -795,11 +798,12 @@
 			baseConfigurationReference = 9AA7577839054F6EDAA72672 /* Pods-StevensLiveUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				DEVELOPMENT_TEAM = 3GRVS95TMT;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = StevensLiveUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = AKSHAY.StevensLiveUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = StevensLive;
 			};
@@ -810,11 +814,12 @@
 			baseConfigurationReference = 3171FFB96B6F565E79029425 /* Pods-StevensLiveUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				DEVELOPMENT_TEAM = 3GRVS95TMT;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = StevensLiveUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = AKSHAY.StevensLiveUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = StevensLive;
 			};
